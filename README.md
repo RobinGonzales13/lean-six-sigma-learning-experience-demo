@@ -1,6 +1,6 @@
 # Lean Six Sigma Learning Experience Demo
 
-A frontend-only, single-question learning experience about the Measure phase of DMAIC. The scenario contrasts process waiting time with hands-on work and gives explanatory answer feedback. Responses are kept in component state and are not saved.
+A frontend-only Lean Six Sigma White Belt demo with an animated 3D wireframe intro and a single question about the Measure phase of DMAIC. The bundled `Intro_1.wav` narration plays on the intro; another local MP3 or WAV can be selected for the current session.
 
 ## Run locally
 

@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
+import WireframeIntro, { type NarrationAudio } from './WireframeIntro'
 import './App.css'
 
 const answers = [
@@ -26,11 +27,43 @@ const answers = [
 
 const correctAnswer = 'map'
 const phases = ['Define', 'Measure', 'Analyze', 'Improve', 'Control']
+const defaultNarration: NarrationAudio = {
+  name: 'Intro_1.wav',
+  url: `${import.meta.env.BASE_URL}audio/Intro_1.wav`,
+}
 
 function App() {
+  const [showIntro, setShowIntro] = useState(true)
+  const [narration, setNarration] = useState<NarrationAudio | null>(defaultNarration)
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
   const [hasSubmitted, setHasSubmitted] = useState(false)
+  const narrationUrlRef = useRef<string | null>(null)
   const isCorrect = selectedAnswer === correctAnswer
+
+  useEffect(() => () => {
+    if (narrationUrlRef.current) URL.revokeObjectURL(narrationUrlRef.current)
+  }, [])
+
+  function handleNarrationSelect(file: File | null) {
+    if (narrationUrlRef.current) URL.revokeObjectURL(narrationUrlRef.current)
+    narrationUrlRef.current = null
+
+    if (!file) {
+      setNarration(null)
+      return
+    }
+
+    const url = URL.createObjectURL(file)
+    narrationUrlRef.current = url
+    setNarration({ name: file.name, url })
+  }
+
+  function handleBegin() {
+    if (narrationUrlRef.current) URL.revokeObjectURL(narrationUrlRef.current)
+    narrationUrlRef.current = null
+    setNarration(null)
+    setShowIntro(false)
+  }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -40,6 +73,16 @@ function App() {
   function handleReset() {
     setSelectedAnswer(null)
     setHasSubmitted(false)
+  }
+
+  if (showIntro) {
+    return (
+      <WireframeIntro
+        narration={narration}
+        onSelectNarration={handleNarrationSelect}
+        onBegin={handleBegin}
+      />
+    )
   }
 
   return (
