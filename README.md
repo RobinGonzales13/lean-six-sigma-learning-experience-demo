@@ -1,6 +1,6 @@
 # Lean Six Sigma Learning Experience Demo
 
-A frontend-only Lean Six Sigma White Belt intro with an animated 3D wireframe corridor and the bundled `Intro_1.wav` narration. The browser attempts autoplay; if it blocks audio, select **Begin training** to start it. Native controls remain available to pause or replay.
+A desktop-first Lean Six Sigma White Belt demo with an animated 3D corridor, bundled `Intro_1.wav` narration, two animated lesson screens, and a final selectable-answer quiz. If the browser blocks narration autoplay, use the native audio controls before continuing. The quiz submit button is visual-only for this demo.
 
 ## Run locally
 

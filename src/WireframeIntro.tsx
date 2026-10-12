@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type RefObject } from 'react'
+import { useEffect, useRef, type RefObject } from 'react'
 import * as THREE from 'three'
 
 export type NarrationAudio = {
@@ -8,24 +8,22 @@ export type NarrationAudio = {
 
 type WireframeIntroProps = {
   narration: NarrationAudio
+  onBegin: () => void
 }
 
 type NarrationPlayerProps = {
   narration: NarrationAudio
   audioRef: RefObject<HTMLAudioElement | null>
-  onAutoplayBlocked: (blocked: boolean) => void
 }
 
-function NarrationPlayer({ narration, audioRef, onAutoplayBlocked }: NarrationPlayerProps) {
+function NarrationPlayer({ narration, audioRef }: NarrationPlayerProps) {
   const narrationUrl = narration.url
 
   useEffect(() => {
     const player = audioRef.current
     if (!player) return
-    void player.play()
-      .then(() => onAutoplayBlocked(false))
-      .catch(() => onAutoplayBlocked(true))
-  }, [audioRef, narrationUrl, onAutoplayBlocked])
+    void player.play().catch(() => {})
+  }, [audioRef, narrationUrl])
 
   return (
     <div className="narration-controls">
@@ -37,13 +35,12 @@ function NarrationPlayer({ narration, audioRef, onAutoplayBlocked }: NarrationPl
         preload="auto"
         src={narrationUrl}
         aria-label="Intro narration"
-        onPlay={() => onAutoplayBlocked(false)}
       />
     </div>
   )
 }
 
-function CorridorScene() {
+export function CorridorScene() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -163,17 +160,8 @@ function CorridorScene() {
   return <canvas className="intro-canvas" ref={canvasRef} aria-hidden="true" />
 }
 
-export default function WireframeIntro({ narration }: WireframeIntroProps) {
+export default function WireframeIntro({ narration, onBegin }: WireframeIntroProps) {
   const narrationRef = useRef<HTMLAudioElement>(null)
-  const [autoplayBlocked, setAutoplayBlocked] = useState(false)
-
-  function handleBeginTraining() {
-    const player = narrationRef.current
-    if (!player) return
-    void player.play()
-      .then(() => setAutoplayBlocked(false))
-      .catch(() => setAutoplayBlocked(true))
-  }
 
   return (
     <main className="wireframe-intro">
@@ -199,14 +187,10 @@ export default function WireframeIntro({ narration }: WireframeIntroProps) {
         </div>
 
         <div className="intro-controls">
-          <button className="begin-button" type="button" onClick={handleBeginTraining}>
-            {autoplayBlocked ? 'Start narration' : 'Begin training'} <span aria-hidden="true">&gt;</span>
+          <button className="begin-button" type="button" onClick={onBegin}>
+            Begin training <span aria-hidden="true">&gt;</span>
           </button>
-          <NarrationPlayer
-            narration={narration}
-            audioRef={narrationRef}
-            onAutoplayBlocked={setAutoplayBlocked}
-          />
+          <NarrationPlayer narration={narration} audioRef={narrationRef} />
         </div>
       </div>
     </main>
