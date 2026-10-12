@@ -1,0 +1,54 @@
+:root {
+  font-family: 'DM Sans', sans-serif;
+  color: #26342e;
+  background: #f3f5ef;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --ink: #26342e;
+  --muted: #758179;
+  --forest: #173f35;
+  --lime: #d9ec70;
+  --lime-deep: #b9d44b;
+  --coral: #b94f35;
+  --paper: #f3f5ef;
+  --line: #d7ddd4;
+  --display: 'Space Grotesk', 'DM Sans', sans-serif;
+  --body: 'DM Sans', sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+::selection {
+  color: var(--ink);
+  background: var(--lime);
+}
+
+#root {
+  min-height: 100vh;
+}
