@@ -7,7 +7,6 @@ export type NarrationAudio = {
 }
 
 type WireframeIntroProps = {
-  onBegin: () => void
   narration: NarrationAudio
 }
 
@@ -125,7 +124,7 @@ function CorridorScene() {
 
     function render(now: number) {
       const elapsed = (now - startTime) / 1000
-      corridor.position.z = reduceMotion ? 0 : (elapsed * 2.2) % 4
+      corridor.position.z = reduceMotion ? 0 : -((elapsed * 6) % 4)
       camera.position.x = reduceMotion ? 0 : Math.sin(elapsed * 0.22) * 0.32
       camera.lookAt(0, 0, -48)
       renderer.render(scene, camera)
@@ -150,7 +149,7 @@ function CorridorScene() {
   return <canvas className="intro-canvas" ref={canvasRef} aria-hidden="true" />
 }
 
-export default function WireframeIntro({ onBegin, narration }: WireframeIntroProps) {
+export default function WireframeIntro({ narration }: WireframeIntroProps) {
   return (
     <main className="wireframe-intro">
       <div className="fallback-grid" aria-hidden="true" />
@@ -158,30 +157,28 @@ export default function WireframeIntro({ onBegin, narration }: WireframeIntroPro
       <div className="intro-vignette" aria-hidden="true" />
 
       <div className="intro-content">
-        <section className="intro-copy-block" aria-labelledby="intro-title">
-          <p className="intro-label">CONTINUOUS IMPROVEMENT / FOUNDATIONS</p>
-          <h1 id="intro-title" className="intro-title">
-            <span>Lean Six Sigma</span>
-            <span>White Belt</span>
-            <span>Training</span>
-          </h1>
-          <p className="intro-subtitle">See the process. Find the opportunity.</p>
-        </section>
+        <div className="intro-hero">
+          <section className="intro-copy-block" aria-labelledby="intro-title">
+            <h1 id="intro-title" className="intro-title">
+              <span>Lean Six Sigma</span>
+              <span>White Belt</span>
+              <span>Training</span>
+            </h1>
+          </section>
 
-        <div className="sigma-emblem" role="img" aria-label="Lean Six Sigma, 6 sigma">
-          <span className="emblem-lean">lean</span>
-          <span className="emblem-six">6</span>
-          <span className="emblem-sigma">σ</span>
+          <img
+            className="sigma-emblem"
+            src={`${import.meta.env.BASE_URL}logos/Lean6Sigma%20Logo.png`}
+            alt="Lean6Sigma Logo"
+          />
         </div>
 
         <div className="intro-controls">
-          <button className="begin-button" type="button" onClick={onBegin}>
+          <button className="begin-button" type="button" disabled>
             Begin training <span aria-hidden="true">&gt;</span>
           </button>
           <NarrationPlayer narration={narration} />
         </div>
-
-        <p className="intro-footer">A SHORT FIELD GUIDE TO BETTER FLOW</p>
       </div>
     </main>
   )
