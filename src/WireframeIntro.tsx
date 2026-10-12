@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState, type RefObject } from 'react'
 import * as THREE from 'three'
 
 export type NarrationAudio = {
@@ -10,20 +10,35 @@ type WireframeIntroProps = {
   narration: NarrationAudio
 }
 
-function NarrationPlayer({ narration }: { narration: NarrationAudio }) {
-  const audioRef = useRef<HTMLAudioElement>(null)
+type NarrationPlayerProps = {
+  narration: NarrationAudio
+  audioRef: RefObject<HTMLAudioElement | null>
+  onAutoplayBlocked: (blocked: boolean) => void
+}
+
+function NarrationPlayer({ narration, audioRef, onAutoplayBlocked }: NarrationPlayerProps) {
   const narrationUrl = narration.url
 
   useEffect(() => {
     const player = audioRef.current
     if (!player) return
-    void player.play().catch(() => {})
-  }, [narrationUrl])
+    void player.play()
+      .then(() => onAutoplayBlocked(false))
+      .catch(() => onAutoplayBlocked(true))
+  }, [audioRef, narrationUrl, onAutoplayBlocked])
 
   return (
     <div className="narration-controls">
       <span className="narration-file-name" title={narration.name}>{narration.name}</span>
-      <audio ref={audioRef} controls autoPlay preload="auto" src={narrationUrl} aria-label="Intro narration" />
+      <audio
+        ref={audioRef}
+        controls
+        autoPlay
+        preload="auto"
+        src={narrationUrl}
+        aria-label="Intro narration"
+        onPlay={() => onAutoplayBlocked(false)}
+      />
     </div>
   )
 }
@@ -119,16 +134,15 @@ function CorridorScene() {
     }
 
     let frame = 0
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const startTime = performance.now()
 
     function render(now: number) {
       const elapsed = (now - startTime) / 1000
-      corridor.position.z = reduceMotion ? 0 : -((elapsed * 6) % 4)
-      camera.position.x = reduceMotion ? 0 : Math.sin(elapsed * 0.22) * 0.32
+      corridor.position.z = -((elapsed * 6) % 4)
+      camera.position.x = Math.sin(elapsed * 0.22) * 0.32
       camera.lookAt(0, 0, -48)
       renderer.render(scene, camera)
-      if (!reduceMotion) frame = window.requestAnimationFrame(render)
+      frame = window.requestAnimationFrame(render)
     }
 
     resize()
@@ -150,6 +164,17 @@ function CorridorScene() {
 }
 
 export default function WireframeIntro({ narration }: WireframeIntroProps) {
+  const narrationRef = useRef<HTMLAudioElement>(null)
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false)
+
+  function handleBeginTraining() {
+    const player = narrationRef.current
+    if (!player) return
+    void player.play()
+      .then(() => setAutoplayBlocked(false))
+      .catch(() => setAutoplayBlocked(true))
+  }
+
   return (
     <main className="wireframe-intro">
       <div className="fallback-grid" aria-hidden="true" />
@@ -174,10 +199,14 @@ export default function WireframeIntro({ narration }: WireframeIntroProps) {
         </div>
 
         <div className="intro-controls">
-          <button className="begin-button" type="button" disabled>
-            Begin training <span aria-hidden="true">&gt;</span>
+          <button className="begin-button" type="button" onClick={handleBeginTraining}>
+            {autoplayBlocked ? 'Start narration' : 'Begin training'} <span aria-hidden="true">&gt;</span>
           </button>
-          <NarrationPlayer narration={narration} />
+          <NarrationPlayer
+            narration={narration}
+            audioRef={narrationRef}
+            onAutoplayBlocked={setAutoplayBlocked}
+          />
         </div>
       </div>
     </main>

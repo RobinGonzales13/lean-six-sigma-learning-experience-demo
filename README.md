@@ -1,6 +1,6 @@
 # Lean Six Sigma Learning Experience Demo
 
-A frontend-only Lean Six Sigma White Belt demo with an animated 3D wireframe intro and a single question about the Measure phase of DMAIC. The bundled `Intro_1.wav` narration plays on the intro, with native controls to pause or replay it.
+A frontend-only Lean Six Sigma White Belt intro with an animated 3D wireframe corridor and the bundled `Intro_1.wav` narration. The browser attempts autoplay; if it blocks audio, select **Begin training** to start it. Native controls remain available to pause or replay.
 
 ## Run locally
 
@@ -16,14 +16,15 @@ npm run lint
 npm run build
 ```
 
-## Cloudflare Pages
+## Cloudflare Pages deployment
 
-The source repository can remain private. Connect it to Cloudflare Pages with the GitHub integration, then use:
+The GitHub source repository stays private. After authenticating Wrangler with `npx wrangler login`, build and deploy with:
 
-- Framework preset: Vite
-- Build command: `npm run build`
-- Build output directory: `dist`
+```sh
+npm run build
+npx wrangler pages deploy dist --project-name lean-six-sigma-learning-experience-demo --branch main
+```
 
-In the Cloudflare Pages project, open **Settings > Variables and Secrets** and add an encrypted production secret named `SITE_PASSWORD`. Set it to a strong shared passphrase. The Pages middleware protects the page and static assets with the browser's native password prompt; enter any username and the shared password.
+Set an encrypted production secret named `SITE_PASSWORD` in the Cloudflare Pages project, or update it with `npx wrangler pages secret put SITE_PASSWORD --project-name lean-six-sigma-learning-experience-demo`. The middleware protects the page and static assets with the browser's native password prompt; enter any username and the shared password.
 
 Do not add the password to this repository. Anyone who receives the password can share it with others, so change the Cloudflare secret to revoke access.

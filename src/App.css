@@ -932,15 +932,6 @@
   outline-offset: 3px;
 }
 
-.begin-button:disabled {
-  opacity: 0.92;
-  cursor: default;
-}
-
-.begin-button:disabled:hover {
-  filter: brightness(1.06);
-}
-
 .narration-controls {
   display: flex;
   align-items: center;
@@ -985,13 +976,3 @@
   to { opacity: 1; transform: scale(1) rotate(0); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
