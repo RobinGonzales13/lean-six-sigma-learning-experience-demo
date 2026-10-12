@@ -16,14 +16,14 @@ function App() {
   }
 
   if (page === 'lean') {
-    return <LeanSixSigmaPage onNext={() => setPage('whitebelt')} />
+    return <LeanSixSigmaPage onBack={() => setPage('intro')} onNext={() => setPage('whitebelt')} />
   }
 
   if (page === 'whitebelt') {
-    return <WhiteBeltPage onNext={() => setPage('quiz')} />
+    return <WhiteBeltPage onBack={() => setPage('lean')} onNext={() => setPage('quiz')} />
   }
 
-  return <PrinciplesQuizPage />
+  return <PrinciplesQuizPage onBack={() => setPage('whitebelt')} />
 }
 
 export default App

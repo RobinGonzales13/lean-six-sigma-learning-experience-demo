@@ -1,13 +1,65 @@
-import { useState, type CSSProperties } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { CorridorScene } from './WireframeIntro'
 
 type LessonPageProps = {
   onNext: () => void
+  onBack: () => void
 }
 
 type TrainingShellProps = {
   stage: string
+  narration?: string
   children: React.ReactNode
+}
+
+function PageNarration({ fileName }: { fileName: string }) {
+  const audioRef = useRef<HTMLAudioElement>(null)
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false)
+  const src = `${import.meta.env.BASE_URL}audio/${fileName}`
+
+  useEffect(() => {
+    const player = audioRef.current
+    if (!player) return
+    let active = true
+
+    void player.play()
+      .then(() => { if (active) setAutoplayBlocked(false) })
+      .catch(() => { if (active) setAutoplayBlocked(true) })
+
+    return () => {
+      active = false
+      player.pause()
+      player.currentTime = 0
+    }
+  }, [src])
+
+  function handlePlay() {
+    const player = audioRef.current
+    if (!player) return
+    void player.play()
+      .then(() => setAutoplayBlocked(false))
+      .catch(() => setAutoplayBlocked(true))
+  }
+
+  return (
+    <div className="page-narration">
+      <span className="page-narration-name">{fileName}</span>
+      <audio
+        ref={audioRef}
+        controls
+        autoPlay
+        preload="auto"
+        src={src}
+        aria-label={`${fileName} narration`}
+        onPlay={() => setAutoplayBlocked(false)}
+      />
+      {autoplayBlocked && (
+        <button className="narration-retry-button" type="button" onClick={handlePlay}>
+          Play narration
+        </button>
+      )}
+    </div>
+  )
 }
 
 const principles = [
@@ -26,7 +78,7 @@ const quizOptions = [
   'Use complex tools before understanding the process.',
 ]
 
-function TrainingShell({ stage, children }: TrainingShellProps) {
+function TrainingShell({ stage, narration, children }: TrainingShellProps) {
   return (
     <main className="wireframe-intro training-screen">
       <div className="fallback-grid" aria-hidden="true" />
@@ -35,6 +87,7 @@ function TrainingShell({ stage, children }: TrainingShellProps) {
       <div className="training-shell">
         <header className="training-topbar">
           <span className="training-brand">LEAN SIX SIGMA / WHITE BELT</span>
+          {narration && <PageNarration fileName={narration} />}
           <span className="training-stage">{stage}</span>
         </header>
         {children}
@@ -43,9 +96,9 @@ function TrainingShell({ stage, children }: TrainingShellProps) {
   )
 }
 
-export function LeanSixSigmaPage({ onNext }: LessonPageProps) {
+export function LeanSixSigmaPage({ onNext, onBack }: LessonPageProps) {
   return (
-    <TrainingShell stage="FOUNDATIONS / 01">
+    <TrainingShell stage="FOUNDATIONS / 01" narration="Intro_2.wav">
       <section className="lesson-layout" aria-labelledby="lean-title">
         <div className="lesson-copy">
           <p className="training-kicker"><span />THE BIG PICTURE</p>
@@ -73,6 +126,9 @@ export function LeanSixSigmaPage({ onNext }: LessonPageProps) {
         </figure>
       </section>
       <footer className="lesson-navigation">
+        <button className="back-button" type="button" onClick={onBack}>
+          <span aria-hidden="true">&lt;</span> Back
+        </button>
         <span className="page-index">01 <i /> 03</span>
         <button className="next-button" type="button" onClick={onNext}>
           Next <span aria-hidden="true">&gt;</span>
@@ -82,9 +138,9 @@ export function LeanSixSigmaPage({ onNext }: LessonPageProps) {
   )
 }
 
-export function WhiteBeltPage({ onNext }: LessonPageProps) {
+export function WhiteBeltPage({ onNext, onBack }: LessonPageProps) {
   return (
-    <TrainingShell stage="YOUR ROLE / 02">
+    <TrainingShell stage="YOUR ROLE / 02" narration="Intro_3.wav">
       <section className="whitebelt-layout" aria-labelledby="whitebelt-title">
         <div className="whitebelt-copy">
           <p className="training-kicker"><span />START SMALL. MAKE IT BETTER.</p>
@@ -103,6 +159,9 @@ export function WhiteBeltPage({ onNext }: LessonPageProps) {
         </figure>
       </section>
       <footer className="lesson-navigation">
+        <button className="back-button" type="button" onClick={onBack}>
+          <span aria-hidden="true">&lt;</span> Back
+        </button>
         <span className="page-index">02 <i /> 03</span>
         <button className="next-button" type="button" onClick={onNext}>
           Next <span aria-hidden="true">&gt;</span>
@@ -112,7 +171,7 @@ export function WhiteBeltPage({ onNext }: LessonPageProps) {
   )
 }
 
-export function PrinciplesQuizPage() {
+export function PrinciplesQuizPage({ onBack }: { onBack: () => void }) {
   const [selectedOption, setSelectedOption] = useState<number | null>(null)
 
   return (
@@ -148,9 +207,14 @@ export function PrinciplesQuizPage() {
 
         <footer className="quiz-actions">
           <span className="quiz-note">SELECT ONE RESPONSE</span>
-          <button className="submit-answer-button" type="button">
-            Submit answer <span aria-hidden="true">&gt;</span>
-          </button>
+          <div className="quiz-action-buttons">
+            <button className="back-button" type="button" onClick={onBack}>
+              <span aria-hidden="true">&lt;</span> Back
+            </button>
+            <button className="submit-answer-button" type="button">
+              Submit answer <span aria-hidden="true">&gt;</span>
+            </button>
+          </div>
         </footer>
       </section>
       <div className="quiz-endmark"><span />END OF DEMO<span /></div>

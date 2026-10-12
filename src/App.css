@@ -1004,6 +1004,46 @@
   color: #8fcaff;
 }
 
+.page-narration {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.page-narration-name {
+  color: #a9bdcd;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  transition: filter 160ms ease;
+}
+
+.page-narration-name:hover {
+  filter: brightness(1.35);
+}
+
+.page-narration audio {
+  width: 220px;
+  height: 30px;
+  accent-color: #72b9ff;
+}
+
+.narration-retry-button {
+  min-height: 30px;
+  padding: 0 10px;
+  border: 1px solid rgb(118 189 255 / 62%);
+  border-radius: 2px;
+  color: #eaf6ff;
+  background: rgb(18 103 182 / 60%);
+  font-size: 10px;
+  cursor: pointer;
+  transition: background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.narration-retry-button:hover {
+  background: #1c7bd0;
+  box-shadow: 0 0 16px rgb(32 143 255 / 42%);
+}
+
 .lesson-layout,
 .whitebelt-layout {
   flex: 1;
@@ -1196,6 +1236,31 @@
   transition: background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
 
+.back-button {
+  min-width: 126px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 0 16px;
+  border: 1px solid rgb(151 186 213 / 48%);
+  border-radius: 2px;
+  color: #d9e8f4;
+  background: rgb(5 13 22 / 42%);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 170ms ease, background-color 170ms ease, transform 170ms ease, box-shadow 170ms ease;
+}
+
+.back-button:hover {
+  transform: translateY(-2px);
+  border-color: #79c2ff;
+  background: rgb(28 91 141 / 50%);
+  box-shadow: 0 0 22px rgb(32 143 255 / 24%);
+}
+
 .next-button:hover,
 .submit-answer-button:hover {
   transform: translateY(-2px);
@@ -1204,6 +1269,7 @@
 }
 
 .next-button:focus-visible,
+.back-button:focus-visible,
 .submit-answer-button:focus-visible,
 .quiz-option:focus-within {
   outline: 3px solid #d9ec70;
@@ -1358,6 +1424,12 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
+}
+
+.quiz-action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .quiz-note {
