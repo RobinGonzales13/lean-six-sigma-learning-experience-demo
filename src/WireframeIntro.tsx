@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ChangeEvent } from 'react'
+import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 
 export type NarrationAudio = {
@@ -8,54 +8,23 @@ export type NarrationAudio = {
 
 type WireframeIntroProps = {
   onBegin: () => void
-  narration?: NarrationAudio | null
-  onSelectNarration?: (file: File | null) => void
+  narration: NarrationAudio
 }
 
-type NarrationInputProps = {
-  narration: NarrationAudio | null
-  onSelect: (file: File | null) => void
-}
-
-function NarrationInput({ narration, onSelect }: NarrationInputProps) {
-  const inputRef = useRef<HTMLInputElement>(null)
+function NarrationPlayer({ narration }: { narration: NarrationAudio }) {
   const audioRef = useRef<HTMLAudioElement>(null)
-  const narrationUrl = narration?.url
+  const narrationUrl = narration.url
 
   useEffect(() => {
     const player = audioRef.current
-    if (!narrationUrl || !player) return
+    if (!player) return
     void player.play().catch(() => {})
   }, [narrationUrl])
 
-  function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.currentTarget.files?.[0]
-    if (file) onSelect(file)
-    event.currentTarget.value = ''
-  }
-
   return (
     <div className="narration-controls">
-      <input
-        ref={inputRef}
-        className="narration-file-input"
-        type="file"
-        accept=".mp3,.wav,audio/mpeg,audio/wav,audio/x-wav"
-        aria-label="Choose narration file"
-        onChange={handleFileChange}
-      />
-      <button className="narration-select-button" type="button" onClick={() => inputRef.current?.click()}>
-        {narration ? 'Replace narration' : 'Choose narration'}
-      </button>
-      {narration ? (
-        <div className="narration-player">
-          <span className="narration-file-name" title={narration.name}>{narration.name}</span>
-          <audio ref={audioRef} controls autoPlay preload="auto" src={narration.url} aria-label="Intro narration" />
-          <button className="narration-remove-button" type="button" onClick={() => onSelect(null)}>Remove</button>
-        </div>
-      ) : (
-        <span className="narration-hint">MP3 or WAV</span>
-      )}
+      <span className="narration-file-name" title={narration.name}>{narration.name}</span>
+      <audio ref={audioRef} controls autoPlay preload="auto" src={narrationUrl} aria-label="Intro narration" />
     </div>
   )
 }
@@ -181,7 +150,7 @@ function CorridorScene() {
   return <canvas className="intro-canvas" ref={canvasRef} aria-hidden="true" />
 }
 
-export default function WireframeIntro({ onBegin, narration = null, onSelectNarration }: WireframeIntroProps) {
+export default function WireframeIntro({ onBegin, narration }: WireframeIntroProps) {
   return (
     <main className="wireframe-intro">
       <div className="fallback-grid" aria-hidden="true" />
@@ -209,7 +178,7 @@ export default function WireframeIntro({ onBegin, narration = null, onSelectNarr
           <button className="begin-button" type="button" onClick={onBegin}>
             Begin training <span aria-hidden="true">&gt;</span>
           </button>
-          {onSelectNarration && <NarrationInput narration={narration} onSelect={onSelectNarration} />}
+          <NarrationPlayer narration={narration} />
         </div>
 
         <p className="intro-footer">A SHORT FIELD GUIDE TO BETTER FLOW</p>

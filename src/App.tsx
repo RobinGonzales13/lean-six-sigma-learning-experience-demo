@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import WireframeIntro, { type NarrationAudio } from './WireframeIntro'
 import './App.css'
 
@@ -34,34 +34,11 @@ const defaultNarration: NarrationAudio = {
 
 function App() {
   const [showIntro, setShowIntro] = useState(true)
-  const [narration, setNarration] = useState<NarrationAudio | null>(defaultNarration)
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
   const [hasSubmitted, setHasSubmitted] = useState(false)
-  const narrationUrlRef = useRef<string | null>(null)
   const isCorrect = selectedAnswer === correctAnswer
 
-  useEffect(() => () => {
-    if (narrationUrlRef.current) URL.revokeObjectURL(narrationUrlRef.current)
-  }, [])
-
-  function handleNarrationSelect(file: File | null) {
-    if (narrationUrlRef.current) URL.revokeObjectURL(narrationUrlRef.current)
-    narrationUrlRef.current = null
-
-    if (!file) {
-      setNarration(null)
-      return
-    }
-
-    const url = URL.createObjectURL(file)
-    narrationUrlRef.current = url
-    setNarration({ name: file.name, url })
-  }
-
   function handleBegin() {
-    if (narrationUrlRef.current) URL.revokeObjectURL(narrationUrlRef.current)
-    narrationUrlRef.current = null
-    setNarration(null)
     setShowIntro(false)
   }
 
@@ -78,8 +55,7 @@ function App() {
   if (showIntro) {
     return (
       <WireframeIntro
-        narration={narration}
-        onSelectNarration={handleNarrationSelect}
+        narration={defaultNarration}
         onBegin={handleBegin}
       />
     )
