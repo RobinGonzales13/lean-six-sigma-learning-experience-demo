@@ -157,7 +157,7 @@ export function CorridorScene() {
     }
   }, [])
 
-  return <canvas className="intro-canvas" ref={canvasRef} aria-hidden="true" />
+  return <canvas className="absolute inset-0 z-[1] block h-full w-full" ref={canvasRef} aria-hidden="true" />
 }
 
 export default function WireframeIntro({ narration, onBegin }: WireframeIntroProps) {

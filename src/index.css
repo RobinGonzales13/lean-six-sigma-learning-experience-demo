@@ -1,54 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #26342e;
+  --color-muted: #758179;
+  --color-forest: #173f35;
+  --color-lime: #d9ec70;
+  --color-lime-deep: #b9d44b;
+  --color-coral: #b94f35;
+  --color-paper: #f3f5ef;
+  --color-line: #d7ddd4;
+  --font-display: "Space Grotesk", "DM Sans", sans-serif;
+  --font-sans: "DM Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
 :root {
-  font-family: 'DM Sans', sans-serif;
-  color: #26342e;
-  background: #f3f5ef;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  font-family: var(--font-sans);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --ink: #26342e;
-  --muted: #758179;
-  --forest: #173f35;
-  --lime: #d9ec70;
-  --lime-deep: #b9d44b;
-  --coral: #b94f35;
-  --paper: #f3f5ef;
-  --line: #d7ddd4;
-  --display: 'Space Grotesk', 'DM Sans', sans-serif;
-  --body: 'DM Sans', sans-serif;
-  --mono: 'IBM Plex Mono', monospace;
+  --ink: var(--color-ink);
+  --muted: var(--color-muted);
+  --forest: var(--color-forest);
+  --lime: var(--color-lime);
+  --lime-deep: var(--color-lime-deep);
+  --coral: var(--color-coral);
+  --paper: var(--color-paper);
+  --line: var(--color-line);
+  --display: var(--font-display);
+  --body: var(--font-sans);
+  --mono: var(--font-mono);
 }
 
-* {
-  box-sizing: border-box;
-}
+@layer base {
+  html {
+    min-width: 320px;
+    min-height: 100%;
+  }
 
-html {
-  min-width: 320px;
-  min-height: 100%;
-}
+  body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+  }
 
-body {
-  min-width: 320px;
-  min-height: 100vh;
-  margin: 0;
-}
+  button,
+  input {
+    font: inherit;
+  }
 
-button,
-input {
-  font: inherit;
-}
+  button {
+    color: inherit;
+  }
 
-button {
-  color: inherit;
-}
+  ::selection {
+    color: var(--ink);
+    background: var(--lime);
+  }
 
-::selection {
-  color: var(--ink);
-  background: var(--lime);
-}
-
-#root {
-  min-height: 100vh;
+  #root {
+    min-height: 100vh;
+  }
 }

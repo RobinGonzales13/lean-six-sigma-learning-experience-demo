@@ -774,7 +774,6 @@
 }
 
 .fallback-grid,
-.intro-canvas,
 .intro-vignette {
   position: absolute;
   inset: 0;
@@ -795,11 +794,6 @@
     linear-gradient(90deg, rgb(190 205 219 / 22%) 1px, transparent 1px);
   background-size: 42px 34px;
   mask-image: linear-gradient(transparent 0%, #000 17%, #000 74%, transparent 100%);
-}
-
-.intro-canvas {
-  z-index: 1;
-  display: block;
 }
 
 .intro-vignette {
@@ -1479,4 +1473,3 @@
   from { opacity: 0; transform: translateY(14px) scale(0.96); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
-
