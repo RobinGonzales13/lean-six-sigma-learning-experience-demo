@@ -3,12 +3,12 @@ import { useEffect, useRef, useState } from 'react'
 const base = `${import.meta.env.BASE_URL}RCA_page`
 const titleText = 'Root Cause Analysis and Problem Solving'
 const TYPE_DELAY_MS = 55
+const VIDEO_SPEED = 1.25
 
-export default function RcaTrainingPage({ onBack }: { onBack: () => void }) {
+export default function RcaTrainingPage({ onBack, onStart }: { onBack: () => void; onStart: () => void }) {
   const [videoEnded, setVideoEnded] = useState(false)
   const [showButtons, setShowButtons] = useState(false)
   const [typed, setTyped] = useState(0)
-  const [started, setStarted] = useState(false)
   const [needsPlay, setNeedsPlay] = useState(false)
   const [videoReady, setVideoReady] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -18,6 +18,10 @@ export default function RcaTrainingPage({ onBack }: { onBack: () => void }) {
     const bgm = bgmRef.current
     const video = videoRef.current
     if (bgm) bgm.volume = 0.04
+    if (video) {
+      video.defaultPlaybackRate = VIDEO_SPEED
+      video.playbackRate = VIDEO_SPEED
+    }
     void video?.play().catch(() => setNeedsPlay(true))
 
     // If music autoplay is blocked, start it silently on the first interaction.
@@ -72,28 +76,20 @@ export default function RcaTrainingPage({ onBack }: { onBack: () => void }) {
   return (
     <main className="rca-page">
       <audio ref={bgmRef} src={`${base}/sound/intro_bgm.wav`} loop autoPlay />
-      {/* Preloaded but hidden until the video ends, so it never shows before playback. */}
-      <img
-        className="rca-image"
-        src={`${base}/img/Intro1.png`}
-        alt=""
-        style={{ visibility: videoEnded ? 'visible' : 'hidden' }}
+      {/* Stays mounted so the paused last frame is the background after it ends. */}
+      <video
+        ref={videoRef}
+        className="rca-video"
+        src={`${base}/vid/Intro1.mp4`}
+        autoPlay
+        playsInline
+        onPlaying={() => {
+          setNeedsPlay(false)
+          setVideoReady(true)
+        }}
+        onEnded={() => setVideoEnded(true)}
+        onError={() => setVideoEnded(true)}
       />
-      {!videoEnded && (
-        <video
-          ref={videoRef}
-          className="rca-video"
-          src={`${base}/vid/Intro1.mp4`}
-          autoPlay
-          playsInline
-          onPlaying={() => {
-            setNeedsPlay(false)
-            setVideoReady(true)
-          }}
-          onEnded={() => setVideoEnded(true)}
-          onError={() => setVideoEnded(true)}
-        />
-      )}
       {!videoReady && !videoEnded && !needsPlay && (
         <div className="rca-loader" role="status" aria-label="Loading">
           <div className="rca-loader-ring">
@@ -123,13 +119,11 @@ export default function RcaTrainingPage({ onBack }: { onBack: () => void }) {
               <button className="back-button rca-back rca-reveal" type="button" onClick={onBack}>
                 <span aria-hidden="true">&lt;</span> Back
               </button>
-              {!started && (
-                <div className="rca-start rca-reveal">
-                  <button className="begin-button" type="button" onClick={() => setStarted(true)}>
-                    Start <span aria-hidden="true">&gt;</span>
-                  </button>
-                </div>
-              )}
+              <div className="rca-start rca-reveal">
+                <button className="begin-button" type="button" onClick={onStart}>
+                  Start <span aria-hidden="true">&gt;</span>
+                </button>
+              </div>
             </>
           )}
         </>
