@@ -13,10 +13,12 @@ export default function RcaTrainingPage({ onBack, onStart }: { onBack: () => voi
   const [videoReady, setVideoReady] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
   const bgmRef = useRef<HTMLAudioElement>(null)
+  const voiceRef = useRef<HTMLAudioElement>(null)
 
   useEffect(() => {
     const bgm = bgmRef.current
     const video = videoRef.current
+    const voice = voiceRef.current
     if (bgm) bgm.volume = 0.04
     if (video) {
       video.defaultPlaybackRate = VIDEO_SPEED
@@ -41,6 +43,7 @@ export default function RcaTrainingPage({ onBack, onStart }: { onBack: () => voi
       window.removeEventListener('keydown', startBgm)
       bgm?.pause()
       video?.pause()
+      voice?.pause()
     }
   }, [])
 
@@ -76,6 +79,7 @@ export default function RcaTrainingPage({ onBack, onStart }: { onBack: () => voi
   return (
     <main className="rca-page">
       <audio ref={bgmRef} src={`${base}/sound/intro_bgm.wav`} loop autoPlay />
+      <audio ref={voiceRef} src={`${base}/sound/voice_intro0.wav`} preload="auto" />
       {/* Stays mounted so the paused last frame is the background after it ends. */}
       <video
         ref={videoRef}
@@ -87,7 +91,10 @@ export default function RcaTrainingPage({ onBack, onStart }: { onBack: () => voi
           setNeedsPlay(false)
           setVideoReady(true)
         }}
-        onEnded={() => setVideoEnded(true)}
+        onEnded={() => {
+          setVideoEnded(true)
+          void voiceRef.current?.play().catch(() => {})
+        }}
         onError={() => setVideoEnded(true)}
       />
       {!videoReady && !videoEnded && !needsPlay && (

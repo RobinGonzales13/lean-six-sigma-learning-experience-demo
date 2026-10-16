@@ -28,7 +28,7 @@ function App() {
   }
 
   if (page === 'rca-problem') {
-    return <RcaProblemPage />
+    return <RcaProblemPage onBack={() => setPage('rca')} />
   }
 
   if (page === 'lean') {

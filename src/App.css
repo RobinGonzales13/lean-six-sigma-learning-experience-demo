@@ -1671,10 +1671,8 @@
   position: absolute;
   inset: 0;
   display: flex;
-  flex-wrap: wrap;
-  align-content: center;
+  align-items: center;
   justify-content: center;
-  gap: 0 0.3em;
   margin: 0;
   padding: 0 10vw;
   text-align: center;
@@ -1686,9 +1684,15 @@
   pointer-events: none;
 }
 
-.rca-problem-line {
+/* Words flow as one sentence; each is inline-block only so it can animate. */
+.rca-problem-words {
+  display: block;
+}
+
+.rca-problem-word {
   display: inline-block;
-  animation: rca-problem-in 1000ms cubic-bezier(0.22, 1, 0.36, 1) 300ms both;
+  white-space: pre;
+  animation: rca-problem-in 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .rca-problem-strong {

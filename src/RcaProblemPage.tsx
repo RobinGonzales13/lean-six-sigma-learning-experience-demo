@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 
 const base = `${import.meta.env.BASE_URL}RCA_page`
-const VIDEO_SPEED = 0.75
 const OVERLAY_DELAY_MS = 4000
 const NEXT_DELAY_MS = 2600
+const headerStart = 'This is often because issues are addressed at the surface level,'
+const headerStrong = 'not at the root.'
 
-export default function RcaProblemPage({ onNext }: { onNext?: () => void }) {
+export default function RcaProblemPage({ onBack, onNext }: { onBack: () => void; onNext?: () => void }) {
   const [videoReady, setVideoReady] = useState(false)
   const [showOverlay, setShowOverlay] = useState(false)
   const [showNext, setShowNext] = useState(false)
@@ -16,12 +17,7 @@ export default function RcaProblemPage({ onNext }: { onNext?: () => void }) {
   useEffect(() => {
     const video = videoRef.current
     const voice = voiceRef.current
-    if (video) {
-      video.defaultPlaybackRate = VIDEO_SPEED
-      video.playbackRate = VIDEO_SPEED
-    }
     void video?.play().catch(() => setNeedsPlay(true))
-    void voice?.play().catch(() => setNeedsPlay(true))
     return () => {
       video?.pause()
       voice?.pause()
@@ -43,13 +39,12 @@ export default function RcaProblemPage({ onNext }: { onNext?: () => void }) {
 
   function playManually() {
     void videoRef.current?.play()
-    void voiceRef.current?.play()
     setNeedsPlay(false)
   }
 
   return (
     <main className="rca-page">
-      <audio ref={voiceRef} src={`${base}/sound/voice_intro1.wav`} autoPlay />
+      <audio ref={voiceRef} src={`${base}/sound/voice_intro1.wav`} preload="auto" />
       <video
         ref={videoRef}
         className="rca-video"
@@ -59,6 +54,9 @@ export default function RcaProblemPage({ onNext }: { onNext?: () => void }) {
         onPlaying={() => {
           setNeedsPlay(false)
           setVideoReady(true)
+          // Voice starts only once the video is actually playing so they stay in sync.
+          const voice = voiceRef.current
+          if (voice && voice.paused && voice.currentTime === 0) void voice.play().catch(() => {})
         }}
         onError={() => setVideoReady(true)}
       />
@@ -77,14 +75,39 @@ export default function RcaProblemPage({ onNext }: { onNext?: () => void }) {
       {showOverlay && (
         <>
           <div className="rca-overlay" />
-          <h1 className="rca-problem-title">
-            <span className="rca-problem-line">This is often because issues are addressed at the surface level,</span>{' '}
-            <strong className="rca-problem-line rca-problem-strong">not at the root.</strong>
+          <h1 className="rca-problem-title" aria-label={`${headerStart} ${headerStrong}`}>
+            <span className="rca-problem-words">
+            {headerStart.split(' ').map((word, i) => (
+              <span
+                className="rca-problem-word"
+                aria-hidden="true"
+                key={i}
+                style={{ animationDelay: `${300 + i * 70}ms` }}
+              >
+                {word}{' '}
+              </span>
+            ))}
+            {headerStrong.split(' ').map((word, i) => (
+              <strong
+                className="rca-problem-word rca-problem-strong"
+                aria-hidden="true"
+                key={i}
+                style={{ animationDelay: `${300 + (headerStart.split(' ').length + i) * 70 + 300}ms` }}
+              >
+                {word}{' '}
+              </strong>
+            ))}
+            </span>
           </h1>
           {showNext && (
-            <button className="next-button rca-next rca-reveal" type="button" onClick={onNext}>
-              Next <span aria-hidden="true">&gt;</span>
-            </button>
+            <>
+              <button className="back-button rca-back rca-reveal" type="button" onClick={onBack}>
+                <span aria-hidden="true">&lt;</span> Back
+              </button>
+              <button className="next-button rca-next rca-reveal" type="button" onClick={onNext}>
+                Next <span aria-hidden="true">&gt;</span>
+              </button>
+            </>
           )}
         </>
       )}
