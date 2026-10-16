@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { LeanSixSigmaPage, PrinciplesQuizPage, WhiteBeltPage } from './TrainingPages'
+import RcaTrainingPage from './RcaTrainingPage'
 import WireframeIntro, { type NarrationAudio } from './WireframeIntro'
 import './App.css'
 
@@ -9,10 +10,20 @@ const defaultNarration: NarrationAudio = {
 }
 
 function App() {
-  const [page, setPage] = useState<'intro' | 'lean' | 'whitebelt' | 'quiz'>('intro')
+  const [page, setPage] = useState<'intro' | 'rca' | 'lean' | 'whitebelt' | 'quiz'>('intro')
 
   if (page === 'intro') {
-    return <WireframeIntro narration={defaultNarration} onBegin={() => setPage('lean')} />
+    return (
+      <WireframeIntro
+        narration={defaultNarration}
+        onBegin={() => setPage('lean')}
+        onRca={() => setPage('rca')}
+      />
+    )
+  }
+
+  if (page === 'rca') {
+    return <RcaTrainingPage onBack={() => setPage('intro')} />
   }
 
   if (page === 'lean') {

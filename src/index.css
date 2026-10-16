@@ -38,8 +38,15 @@
 
 @layer base {
   html {
+    --ui-zoom: 1.3;
+    background: #000;
     min-width: 320px;
     min-height: 100%;
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
   }
 
   body {
@@ -63,6 +70,8 @@
   }
 
   #root {
-    min-height: 100vh;
+    zoom: var(--ui-zoom);
+    min-height: calc(100vh / var(--ui-zoom));
+    background: #000;
   }
 }
