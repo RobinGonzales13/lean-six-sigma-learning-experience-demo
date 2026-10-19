@@ -891,25 +891,26 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 18px;
   padding: 0;
   animation: title-line-in 650ms 1900ms both;
 }
 
 .begin-button {
-  min-width: 260px;
+  min-width: 280px;
   min-height: 62px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 30px;
-  padding: 0 28px;
+  gap: 22px;
+  padding: 0 32px;
   border: 1px solid #78b9ff;
-  border-radius: 2px;
+  border-radius: 4px;
   color: #fff;
-  background: #1267b6;
-  box-shadow: 0 0 24px rgb(21 115 208 / 38%);
-  font-size: 17px;
+  background: linear-gradient(110deg, #0e579d, #197acc);
+  box-shadow: 0 8px 25px rgb(0 43 88 / 34%), 0 0 22px rgb(21 115 208 / 34%);
+  font-size: 16px;
+  letter-spacing: 0.02em;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
@@ -2242,11 +2243,11 @@
   }
 
   .intro-controls {
-    gap: 8px;
+    gap: 14px;
   }
 
   .intro-controls .begin-button {
-    min-height: 48px;
+    min-height: 54px;
   }
 }
 
