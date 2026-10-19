@@ -5,6 +5,7 @@ import RcaTrainingPage from './Rca_Opening_1'
 import RcaProblemPage from './Rca_Opening_2'
 import RcaOpeningThree from './RCA_Opening_3'
 import RcaAgendaPage from './RCA_Agenda_1'
+import RcaExperienceOutcomes from './RCA_ExpOut_1'
 import WireframeIntro, { type NarrationAudio } from './LSS_Opening_1'
 import './App.css'
 
@@ -14,7 +15,7 @@ const defaultNarration: NarrationAudio = {
 }
 
 function App() {
-  const [page, setPage] = useState<'intro' | 'ile-dashboard' | 'rca' | 'rca-problem' | 'rca-opening-3' | 'rca-agenda' | 'lean' | 'whitebelt' | 'quiz'>('ile-dashboard')
+  const [page, setPage] = useState<'intro' | 'ile-dashboard' | 'rca' | 'rca-problem' | 'rca-opening-3' | 'rca-agenda' | 'rca-expout' | 'lean' | 'whitebelt' | 'quiz'>('ile-dashboard')
 
   if (page === 'intro') {
     return (
@@ -48,7 +49,11 @@ function App() {
   }
 
   if (page === 'rca-agenda') {
-    return <RcaAgendaPage onBack={() => setPage('rca-opening-3')} />
+    return <RcaAgendaPage onBack={() => setPage('rca-opening-3')} onNext={() => setPage('rca-expout')} />
+  }
+
+  if (page === 'rca-expout') {
+    return <RcaExperienceOutcomes onBack={() => setPage('rca-agenda')} />
   }
 
   if (page === 'lean') {
