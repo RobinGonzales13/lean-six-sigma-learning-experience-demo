@@ -9,6 +9,7 @@ export type NarrationAudio = {
 type WireframeIntroProps = {
   narration: NarrationAudio
   onBegin: () => void
+  onBack: () => void
 }
 
 type NarrationPlayerProps = {
@@ -160,7 +161,7 @@ export function CorridorScene() {
   return <canvas className="absolute inset-0 z-[1] block h-full w-full" ref={canvasRef} aria-hidden="true" />
 }
 
-export default function WireframeIntro({ narration, onBegin }: WireframeIntroProps) {
+export default function WireframeIntro({ narration, onBegin, onBack }: WireframeIntroProps) {
   const narrationRef = useRef<HTMLAudioElement>(null)
 
   return (
@@ -168,6 +169,9 @@ export default function WireframeIntro({ narration, onBegin }: WireframeIntroPro
       <div className="fallback-grid" aria-hidden="true" />
       <CorridorScene />
       <div className="intro-vignette" aria-hidden="true" />
+      <button className="back-button intro-back" type="button" onClick={onBack}>
+        <span aria-hidden="true">&lt;</span> Back
+      </button>
 
       <div className="intro-content">
         <div className="intro-hero">

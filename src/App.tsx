@@ -3,6 +3,8 @@ import { LeanSixSigmaPage, PrinciplesQuizPage, WhiteBeltPage } from './TrainingP
 import ILE_Dashboard from './ILE_Dashboard'
 import RcaTrainingPage from './Rca_Opening_1'
 import RcaProblemPage from './Rca_Opening_2'
+import RcaOpeningThree from './RCA_Opening_3'
+import RcaAgendaPage from './RCA_Agenda_1'
 import WireframeIntro, { type NarrationAudio } from './LSS_Opening_1'
 import './App.css'
 
@@ -12,13 +14,14 @@ const defaultNarration: NarrationAudio = {
 }
 
 function App() {
-  const [page, setPage] = useState<'intro' | 'ile-dashboard' | 'rca' | 'rca-problem' | 'lean' | 'whitebelt' | 'quiz'>('ile-dashboard')
+  const [page, setPage] = useState<'intro' | 'ile-dashboard' | 'rca' | 'rca-problem' | 'rca-opening-3' | 'rca-agenda' | 'lean' | 'whitebelt' | 'quiz'>('ile-dashboard')
 
   if (page === 'intro') {
     return (
       <WireframeIntro
         narration={defaultNarration}
         onBegin={() => setPage('lean')}
+        onBack={() => setPage('ile-dashboard')}
       />
     )
   }
@@ -33,11 +36,19 @@ function App() {
   }
 
   if (page === 'rca') {
-    return <RcaTrainingPage onBack={() => setPage('intro')} onStart={() => setPage('rca-problem')} />
+    return <RcaTrainingPage onBack={() => setPage('ile-dashboard')} onStart={() => setPage('rca-problem')} />
   }
 
   if (page === 'rca-problem') {
-    return <RcaProblemPage onBack={() => setPage('rca')} />
+    return <RcaProblemPage onBack={() => setPage('rca')} onNext={() => setPage('rca-opening-3')} />
+  }
+
+  if (page === 'rca-opening-3') {
+    return <RcaOpeningThree onBack={() => setPage('rca-problem')} onNext={() => setPage('rca-agenda')} />
+  }
+
+  if (page === 'rca-agenda') {
+    return <RcaAgendaPage onBack={() => setPage('rca-opening-3')} />
   }
 
   if (page === 'lean') {
