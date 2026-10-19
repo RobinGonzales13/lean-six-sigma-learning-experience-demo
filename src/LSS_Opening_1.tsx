@@ -9,7 +9,6 @@ export type NarrationAudio = {
 type WireframeIntroProps = {
   narration: NarrationAudio
   onBegin: () => void
-  onRca?: () => void
 }
 
 type NarrationPlayerProps = {
@@ -161,7 +160,7 @@ export function CorridorScene() {
   return <canvas className="absolute inset-0 z-[1] block h-full w-full" ref={canvasRef} aria-hidden="true" />
 }
 
-export default function WireframeIntro({ narration, onBegin, onRca }: WireframeIntroProps) {
+export default function WireframeIntro({ narration, onBegin }: WireframeIntroProps) {
   const narrationRef = useRef<HTMLAudioElement>(null)
 
   return (
@@ -191,11 +190,6 @@ export default function WireframeIntro({ narration, onBegin, onRca }: WireframeI
           <button className="begin-button" type="button" onClick={onBegin}>
             Begin training <span aria-hidden="true">&gt;</span>
           </button>
-          {onRca && (
-            <button className="begin-button" type="button" onClick={onRca}>
-              RCA training <span aria-hidden="true">&gt;</span>
-            </button>
-          )}
           <NarrationPlayer narration={narration} audioRef={narrationRef} />
         </div>
       </div>

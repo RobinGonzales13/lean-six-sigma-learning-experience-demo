@@ -135,7 +135,7 @@ export default function RcaTrainingPage({ onBack, onStart }: { onBack: () => voi
               </button>
               <div className="rca-start rca-reveal">
                 <button className="begin-button" type="button" onClick={onStart}>
-                  Start <span aria-hidden="true">&gt;</span>
+                  Begin Training <span aria-hidden="true">&gt;</span>
                 </button>
               </div>
             </>
