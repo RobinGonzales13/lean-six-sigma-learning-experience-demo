@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { LeanSixSigmaPage, PrinciplesQuizPage, WhiteBeltPage } from './TrainingPages'
-import RcaTrainingPage from './RcaTrainingPage'
-import RcaProblemPage from './RcaProblemPage'
+import RcaTrainingPage from './Rca_Opening_1'
+import RcaProblemPage from './Rca_Opening_2'
 import WireframeIntro, { type NarrationAudio } from './WireframeIntro'
 import './App.css'
 
