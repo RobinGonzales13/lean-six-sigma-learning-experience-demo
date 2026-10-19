@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 
 const base = `${import.meta.env.BASE_URL}RCA_page`
 
-export default function RcaAgendaPage({ onBack }: { onBack: () => void }) {
+export default function RcaAgendaPage({ onBack, onNext }: { onBack: () => void; onNext: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [needsPlay, setNeedsPlay] = useState(false)
   const [videoError, setVideoError] = useState(false)
@@ -44,6 +44,9 @@ export default function RcaAgendaPage({ onBack }: { onBack: () => void }) {
       )}
       <button className="back-button rca-back" type="button" onClick={onBack}>
         <span aria-hidden="true">&lt;</span> Back
+      </button>
+      <button className="next-button rca-next" type="button" onClick={onNext}>
+        Next <span aria-hidden="true">&gt;</span>
       </button>
     </main>
   )
