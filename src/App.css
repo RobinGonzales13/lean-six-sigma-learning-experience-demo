@@ -1587,6 +1587,16 @@
   animation: rca-board-in 850ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.rca-page.rca-expout-page {
+  animation: none;
+  opacity: 1;
+}
+
+.rca-expout-page .rca-board {
+  animation: none;
+  opacity: 1;
+}
+
 .rca-board::before,
 .rca-board::after {
   position: absolute;
@@ -2727,39 +2737,39 @@
 
 /* RCA opening 3: entrance sequence, starts together with the narration (.rca-live). */
 @media (prefers-reduced-motion: no-preference) {
-  .rca-grid-page:not(.rca-live) .rca-board,
-  .rca-grid-page:not(.rca-live) .rca-board-step,
-  .rca-grid-page:not(.rca-live) .rca-open-btn,
-  .rca-grid-page:not(.rca-live) .rca-board-kicker,
-  .rca-grid-page:not(.rca-live) .rca-board-header h1,
-  .rca-grid-page:not(.rca-live) .rca-board-rule,
-  .rca-grid-page:not(.rca-live) .rca-board-intro,
-  .rca-grid-page:not(.rca-live) .rca-board-conclusion {
+  .rca-opening-three:not(.rca-live) .rca-board,
+  .rca-opening-three:not(.rca-live) .rca-board-step,
+  .rca-opening-three:not(.rca-live) .rca-open-btn,
+  .rca-opening-three:not(.rca-live) .rca-board-kicker,
+  .rca-opening-three:not(.rca-live) .rca-board-header h1,
+  .rca-opening-three:not(.rca-live) .rca-board-rule,
+  .rca-opening-three:not(.rca-live) .rca-board-intro,
+  .rca-opening-three:not(.rca-live) .rca-board-conclusion {
     animation: none;
     opacity: 0;
   }
 
-  .rca-live .rca-board-kicker,
-  .rca-live .rca-board-header h1,
-  .rca-live .rca-board-intro,
-  .rca-live .rca-board-conclusion {
+  .rca-opening-three.rca-live .rca-board-kicker,
+  .rca-opening-three.rca-live .rca-board-header h1,
+  .rca-opening-three.rca-live .rca-board-intro,
+  .rca-opening-three.rca-live .rca-board-conclusion {
     animation: rca-text-in 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
-  .rca-live .rca-board { animation-duration: 1000ms; animation-delay: 150ms; }
-  .rca-live .rca-board-kicker { animation-delay: 900ms; }
-  .rca-live .rca-board-header h1 { animation-name: rca-title-reveal; animation-duration: 1100ms; animation-delay: 1200ms; }
-  .rca-live .rca-board-rule {
+  .rca-opening-three.rca-live .rca-board { animation-duration: 1000ms; animation-delay: 150ms; }
+  .rca-opening-three.rca-live .rca-board-kicker { animation-delay: 900ms; }
+  .rca-opening-three.rca-live .rca-board-header h1 { animation-name: rca-title-reveal; animation-duration: 1100ms; animation-delay: 1200ms; }
+  .rca-opening-three.rca-live .rca-board-rule {
     transform-origin: left;
     animation: rca-rule-grow 800ms cubic-bezier(0.22, 1, 0.36, 1) 1900ms both;
   }
-  .rca-live .rca-board-intro { animation-delay: 2300ms; }
-  .rca-live .rca-board-step { animation-duration: 800ms; animation-delay: 2900ms; }
-  .rca-live .rca-board-step:nth-child(2) { animation-delay: 3200ms; }
-  .rca-live .rca-board-step:nth-child(3) { animation-delay: 3500ms; }
-  .rca-live .rca-board-conclusion { animation-delay: 4100ms; }
-  .rca-live .rca-board-conclusion strong { animation: rca-strong-glow 1400ms ease-out 4500ms both; }
-  .rca-live .rca-open-btn { animation: rca-text-in 800ms cubic-bezier(0.22, 1, 0.36, 1) 4800ms both; }
+  .rca-opening-three.rca-live .rca-board-intro { animation-delay: 2300ms; }
+  .rca-opening-three.rca-live .rca-board-step { animation-duration: 800ms; animation-delay: 2900ms; }
+  .rca-opening-three.rca-live .rca-board-step:nth-child(2) { animation-delay: 3200ms; }
+  .rca-opening-three.rca-live .rca-board-step:nth-child(3) { animation-delay: 3500ms; }
+  .rca-opening-three.rca-live .rca-board-conclusion { animation-delay: 4100ms; }
+  .rca-opening-three.rca-live .rca-board-conclusion strong { animation: rca-strong-glow 1400ms ease-out 4500ms both; }
+  .rca-opening-three.rca-live .rca-open-btn { animation: rca-text-in 800ms cubic-bezier(0.22, 1, 0.36, 1) 4800ms both; }
 }
 
 @keyframes rca-text-in {

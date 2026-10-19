@@ -1,6 +1,29 @@
+import { useEffect, useRef, useState } from 'react'
+
+const base = `${import.meta.env.BASE_URL}RCA_page`
+
 export default function RcaExperienceOutcomes({ onBack }: { onBack: () => void }) {
+  const audioRef = useRef<HTMLAudioElement>(null)
+  const [needsPlay, setNeedsPlay] = useState(false)
+
+  useEffect(() => {
+    const audio = audioRef.current
+    void audio?.play()
+      .then(() => setNeedsPlay(false))
+      .catch(() => setNeedsPlay(true))
+
+    return () => audio?.pause()
+  }, [])
+
+  function playNarration() {
+    void audioRef.current?.play()
+      .then(() => setNeedsPlay(false))
+      .catch(() => setNeedsPlay(true))
+  }
+
   return (
-    <main className="rca-page rca-grid-page" aria-label="Root Cause Analysis experience outcomes">
+    <main className="rca-page rca-grid-page rca-expout-page" aria-label="Root Cause Analysis experience outcomes">
+      <audio ref={audioRef} src={`${base}/sound/ExpOut_1.wav`} preload="auto" autoPlay />
       <div className="rca-grid-scene" aria-hidden="true">
         <div className="rca-grid-glow" />
         <div className="rca-grid-lines" />
@@ -31,6 +54,11 @@ export default function RcaExperienceOutcomes({ onBack }: { onBack: () => void }
       <button className="back-button rca-back" type="button" onClick={onBack}>
         <span aria-hidden="true">&lt;</span> Back
       </button>
+      {needsPlay && (
+        <button className="begin-button rca-play" type="button" onClick={playNarration}>
+          Play narration
+        </button>
+      )}
     </main>
   )
 }

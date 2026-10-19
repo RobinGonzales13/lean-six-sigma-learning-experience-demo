@@ -28,7 +28,7 @@ export default function RcaOpeningThree({ onBack, onNext }: { onBack: () => void
   }
 
   return (
-    <main className={`rca-page rca-grid-page${live ? ' rca-live' : ''}`} aria-label="Root Cause Analysis">
+    <main className={`rca-page rca-grid-page rca-opening-three${live ? ' rca-live' : ''}`} aria-label="Root Cause Analysis">
       <audio ref={voiceRef} src={`${base}/sound/voice_intro2.wav`} preload="auto" autoPlay onPlaying={handlePlaying} />
       <div className="rca-grid-scene" aria-hidden="true">
         <div className="rca-grid-glow" />
