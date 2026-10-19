@@ -2725,60 +2725,30 @@
   }
 }
 
-/* RCA opening 3: entrance sequence, starts together with the narration (.rca-live). */
-@media (prefers-reduced-motion: no-preference) {
-  .rca-grid-page:not(.rca-live) .rca-board,
-  .rca-grid-page:not(.rca-live) .rca-board-step,
-  .rca-grid-page:not(.rca-live) .rca-open-btn,
-  .rca-grid-page:not(.rca-live) .rca-board-kicker,
-  .rca-grid-page:not(.rca-live) .rca-board-header h1,
-  .rca-grid-page:not(.rca-live) .rca-board-rule,
-  .rca-grid-page:not(.rca-live) .rca-board-intro,
-  .rca-grid-page:not(.rca-live) .rca-board-conclusion {
-    animation: none;
-    opacity: 0;
-  }
-
-  .rca-live .rca-board-kicker,
-  .rca-live .rca-board-header h1,
-  .rca-live .rca-board-intro,
-  .rca-live .rca-board-conclusion {
-    animation: rca-text-in 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-
-  .rca-live .rca-board { animation-duration: 1000ms; animation-delay: 150ms; }
-  .rca-live .rca-board-kicker { animation-delay: 900ms; }
-  .rca-live .rca-board-header h1 { animation-name: rca-title-reveal; animation-duration: 1100ms; animation-delay: 1200ms; }
-  .rca-live .rca-board-rule {
-    transform-origin: left;
-    animation: rca-rule-grow 800ms cubic-bezier(0.22, 1, 0.36, 1) 1900ms both;
-  }
-  .rca-live .rca-board-intro { animation-delay: 2300ms; }
-  .rca-live .rca-board-step { animation-duration: 800ms; animation-delay: 2900ms; }
-  .rca-live .rca-board-step:nth-child(2) { animation-delay: 3200ms; }
-  .rca-live .rca-board-step:nth-child(3) { animation-delay: 3500ms; }
-  .rca-live .rca-board-conclusion { animation-delay: 4100ms; }
-  .rca-live .rca-board-conclusion strong { animation: rca-strong-glow 1400ms ease-out 4500ms both; }
-  .rca-live .rca-open-btn { animation: rca-text-in 800ms cubic-bezier(0.22, 1, 0.36, 1) 4800ms both; }
+/* RCA opening 3 entrance: same pattern as the training pages (mount-time animations with staggered delays). */
+.rca-grid-page .rca-board {
+  animation: rca-board-rise 1100ms cubic-bezier(0.22, 1, 0.36, 1) 100ms both;
 }
 
-@keyframes rca-text-in {
-  from { opacity: 0; transform: translateY(18px); filter: blur(6px); }
-  to { opacity: 1; transform: none; filter: none; }
+.rca-grid-page .rca-board-kicker { animation: screen-enter 700ms 1200ms both; }
+.rca-grid-page .rca-board-header h1 { animation: screen-enter 800ms 1450ms both; }
+.rca-grid-page .rca-board-rule {
+  transform-origin: left;
+  animation: rca-rule-grow 700ms 1900ms both;
 }
+.rca-grid-page .rca-board-intro { animation: screen-enter 700ms 2200ms both; }
+.rca-grid-page .rca-board-step { animation: bullet-enter 650ms 2700ms both; }
+.rca-grid-page .rca-board-step:nth-child(2) { animation-delay: 2950ms; }
+.rca-grid-page .rca-board-step:nth-child(3) { animation-delay: 3200ms; }
+.rca-grid-page .rca-board-conclusion { animation: screen-enter 700ms 3700ms both; }
+.rca-grid-page .rca-open-btn { animation: screen-enter 700ms 4200ms both; }
 
-@keyframes rca-title-reveal {
-  from { opacity: 0; transform: translateY(26px); letter-spacing: 0.04em; filter: blur(10px); }
-  to { opacity: 1; transform: none; letter-spacing: -0.045em; filter: none; }
+@keyframes rca-board-rise {
+  from { opacity: 0; transform: translate(-50%, calc(-50% + 60vh)); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
 }
 
 @keyframes rca-rule-grow {
   from { opacity: 0; transform: scaleX(0); }
   to { opacity: 1; transform: scaleX(1); }
-}
-
-@keyframes rca-strong-glow {
-  from { text-shadow: 0 0 0 rgb(94 190 224 / 0%); }
-  40% { text-shadow: 0 0 26px rgb(94 190 224 / 90%); }
-  to { text-shadow: 0 0 18px rgb(94 190 224 / 22%); }
 }

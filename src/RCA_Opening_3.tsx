@@ -5,9 +5,8 @@ const base = `${import.meta.env.BASE_URL}RCA_page`
 export default function RcaOpeningThree({ onBack, onNext }: { onBack: () => void; onNext: () => void }) {
   const voiceRef = useRef<HTMLAudioElement>(null)
   const [needsPlay, setNeedsPlay] = useState(false)
-  // Animations and narration start together: when playback begins, or on the manual Play click.
-  const [live, setLive] = useState(false)
 
+  // Narration starts on mount, together with the CSS entrance animations.
   useEffect(() => {
     const voice = voiceRef.current
     void voice?.play().catch((error: unknown) => {
@@ -18,18 +17,19 @@ export default function RcaOpeningThree({ onBack, onNext }: { onBack: () => void
     return () => voice?.pause()
   }, [])
 
-  function handlePlaying() {
-    setNeedsPlay(false)
-    setLive(true)
-  }
-
   function playVoice() {
     void voiceRef.current?.play().catch(() => {})
   }
 
   return (
-    <main className={`rca-page rca-grid-page${live ? ' rca-live' : ''}`} aria-label="Root Cause Analysis">
-      <audio ref={voiceRef} src={`${base}/sound/voice_intro2.wav`} preload="auto" autoPlay onPlaying={handlePlaying} />
+    <main className="rca-page rca-grid-page" aria-label="Root Cause Analysis">
+      <audio
+        ref={voiceRef}
+        src={`${base}/sound/voice_intro2.wav`}
+        preload="auto"
+        autoPlay
+        onPlaying={() => setNeedsPlay(false)}
+      />
       <div className="rca-grid-scene" aria-hidden="true">
         <div className="rca-grid-glow" />
         <div className="rca-grid-lines" />
