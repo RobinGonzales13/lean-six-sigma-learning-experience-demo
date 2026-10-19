@@ -5,25 +5,31 @@ const base = `${import.meta.env.BASE_URL}RCA_page`
 export default function RcaOpeningThree({ onBack, onNext }: { onBack: () => void; onNext: () => void }) {
   const voiceRef = useRef<HTMLAudioElement>(null)
   const [needsPlay, setNeedsPlay] = useState(false)
+  // Animations and narration start together: when playback begins, or on the manual Play click.
+  const [live, setLive] = useState(false)
 
   useEffect(() => {
     const voice = voiceRef.current
-    void voice?.play()
-      .then(() => setNeedsPlay(false))
-      .catch(() => setNeedsPlay(true))
+    void voice?.play().catch((error: unknown) => {
+      // An aborted play (e.g. effect re-run) is not an autoplay block.
+      if (error instanceof DOMException && error.name === 'NotAllowedError') setNeedsPlay(true)
+    })
 
     return () => voice?.pause()
   }, [])
 
+  function handlePlaying() {
+    setNeedsPlay(false)
+    setLive(true)
+  }
+
   function playVoice() {
-    void voiceRef.current?.play()
-      .then(() => setNeedsPlay(false))
-      .catch(() => setNeedsPlay(true))
+    void voiceRef.current?.play().catch(() => {})
   }
 
   return (
-    <main className="rca-page rca-grid-page" aria-label="Root Cause Analysis">
-      <audio ref={voiceRef} src={`${base}/sound/voice_intro2.wav`} preload="auto" autoPlay />
+    <main className={`rca-page rca-grid-page${live ? ' rca-live' : ''}`} aria-label="Root Cause Analysis">
+      <audio ref={voiceRef} src={`${base}/sound/voice_intro2.wav`} preload="auto" autoPlay onPlaying={handlePlaying} />
       <div className="rca-grid-scene" aria-hidden="true">
         <div className="rca-grid-glow" />
         <div className="rca-grid-lines" />
@@ -66,10 +72,10 @@ export default function RcaOpeningThree({ onBack, onNext }: { onBack: () => void
           Play narration
         </button>
       )}
-      <button className="back-button rca-back" type="button" onClick={onBack}>
+      <button className="back-button rca-back rca-open-btn" type="button" onClick={onBack}>
         <span aria-hidden="true">&lt;</span> Back
       </button>
-      <button className="next-button rca-next" type="button" onClick={onNext}>
+      <button className="next-button rca-next rca-open-btn" type="button" onClick={onNext}>
         Next <span aria-hidden="true">&gt;</span>
       </button>
     </main>
