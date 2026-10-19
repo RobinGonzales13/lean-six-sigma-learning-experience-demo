@@ -891,9 +891,40 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
+  gap: 22px;
   padding: 0;
   animation: title-line-in 650ms 1900ms both;
+}
+
+.intro-controls .begin-button {
+  min-width: 300px;
+  min-height: 66px;
+  gap: 18px;
+  border-radius: 5px;
+  background: linear-gradient(110deg, #0e579d, #197acc);
+  box-shadow: 0 9px 28px rgb(0 43 88 / 42%), 0 0 24px rgb(21 115 208 / 38%);
+  font-size: 17px;
+}
+
+.intro-controls .begin-button span {
+  width: 27px;
+  height: 27px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgb(224 243 255 / 50%);
+  border-radius: 50%;
+  font-size: 13px;
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.intro-controls .begin-button:hover:not(:disabled) {
+  background: linear-gradient(110deg, #146db9, #268de0);
+  box-shadow: 0 10px 32px rgb(0 43 88 / 48%), 0 0 30px rgb(32 143 255 / 54%);
+}
+
+.intro-controls .begin-button:hover:not(:disabled) span {
+  transform: translateX(2px);
+  background: rgb(224 243 255 / 12%);
 }
 
 .begin-button {
@@ -2077,8 +2108,9 @@
   transition: transform 200ms ease, filter 200ms ease;
 }
 
-.ile-learning-card:hover .ile-card-logo {
-  transform: scale(1.12);
+.ile-learning-card:hover .ile-card-logo,
+.ile-learning-card:focus-visible .ile-card-logo {
+  transform: scale(1.5);
   filter: drop-shadow(0 0 13px rgb(82 196 255 / 78%));
 }
 
@@ -2211,7 +2243,7 @@
 
 @media (max-height: 760px) {
   .intro-content {
-    gap: 10px;
+    gap: 42px;
     padding-block: 12px 6px;
   }
 
@@ -2243,11 +2275,17 @@
   }
 
   .intro-controls {
-    gap: 14px;
+    gap: 18px;
   }
 
   .intro-controls .begin-button {
-    min-height: 54px;
+    min-width: 280px;
+    min-height: 56px;
+  }
+
+  .intro-controls .begin-button span {
+    width: 24px;
+    height: 24px;
   }
 }
 
