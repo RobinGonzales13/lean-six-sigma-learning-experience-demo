@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
-import { CorridorScene } from './WireframeIntro'
+import { CorridorScene } from './LSS_Opening_1'
 
 type LessonPageProps = {
   onNext: () => void
