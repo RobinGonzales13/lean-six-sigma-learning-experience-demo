@@ -114,11 +114,18 @@ export default function RcaTrainingPage({ onBack, onStart }: { onBack: () => voi
           <div className="rca-overlay" />
           <h1 className="rca-title" aria-label={titleText}>
             <span className="rca-title-frame" aria-hidden="true">
-              <span>
-                {titleText.slice(0, typed)}
-                <i className="rca-caret" />
+              <img
+                className="rca-title-logo"
+                src={`${base}/img/intro0_logo1.png`}
+                alt=""
+              />
+              <span className="rca-title-copy">
+                <span>
+                  {titleText.slice(0, typed)}
+                  <i className="rca-caret" />
+                </span>
+                <span className="rca-title-rest">{titleText.slice(typed)}</span>
               </span>
-              <span className="rca-title-rest">{titleText.slice(typed)}</span>
             </span>
           </h1>
           {showButtons && (
