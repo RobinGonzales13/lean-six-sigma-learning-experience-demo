@@ -83,7 +83,7 @@ function App() {
   return (
     <>
       <Pages page={page} setPage={setPage} />
-      {import.meta.env.DEV && <DevNav page={page} onGo={setPage} />}
+      <DevNav page={page} onGo={setPage} />
     </>
   )
 }
