@@ -2634,23 +2634,384 @@
   }
 }
 
-/* RCA opening 3 entrance: same pattern as the training pages (mount-time animations with staggered delays). */
+/* RCA opening 3: the header animates on mount; narrated content is revealed by audio cues (see RCA_Opening_3.tsx). */
 .rca-grid-page .rca-board {
-  animation: rca-board-rise 1100ms cubic-bezier(0.22, 1, 0.36, 1) 100ms both;
+  animation: rca-board-rise 900ms cubic-bezier(0.22, 1, 0.36, 1) 100ms both;
 }
 
-.rca-grid-page .rca-board-kicker { animation: screen-enter 700ms 1200ms both; }
-.rca-grid-page .rca-board-header h1 { animation: screen-enter 800ms 1450ms both; }
+.rca-grid-page .rca-board-kicker { animation: screen-enter 600ms 500ms both; }
+.rca-grid-page .rca-board-header h1 { animation: screen-enter 700ms 650ms both; }
 .rca-grid-page .rca-board-rule {
   transform-origin: left;
-  animation: rca-rule-grow 700ms 1900ms both;
+  animation: rca-rule-grow 600ms 900ms both;
 }
-.rca-grid-page .rca-board-intro { animation: screen-enter 700ms 2200ms both; }
-.rca-grid-page .rca-board-step { animation: bullet-enter 650ms 2700ms both; }
-.rca-grid-page .rca-board-step:nth-child(2) { animation-delay: 2950ms; }
-.rca-grid-page .rca-board-step:nth-child(3) { animation-delay: 3200ms; }
-.rca-grid-page .rca-board-conclusion { animation: screen-enter 700ms 3700ms both; }
-.rca-grid-page .rca-open-btn { animation: screen-enter 700ms 4200ms both; }
+
+.rca-grid-page .rca-cue:not(.is-shown) {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.rca-grid-page .rca-cue.is-shown { animation: screen-enter 500ms both; }
+.rca-grid-page .rca-board-step.rca-cue.is-shown { animation: bullet-enter 550ms both; }
+.rca-expout-list li.rca-cue.is-shown { animation: bullet-enter 550ms backwards; }
+
+/* RCA reflection: text over a blurred overlay, revealed by narration cues (see RCA_Ref_1.tsx). */
+.rca-ref-page .rca-cue:not(.is-shown) {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.rca-ref-page .rca-cue.is-shown { animation: screen-enter 500ms both; }
+.rca-ref-page .rca-ref-list li.rca-cue.is-shown { animation: rca-ref-card-in 650ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.rca-ref-page .rca-ref-rule.rca-cue.is-shown { animation: rca-rule-grow 700ms 150ms both; }
+
+.rca-ref-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6vw;
+}
+
+.rca-ref-panel {
+  position: relative;
+  width: min(1080px, 100%);
+  padding: clamp(28px, 3.4vw, 48px) clamp(28px, 4vw, 56px);
+  border: 1px solid rgb(120 185 255 / 38%);
+  background:
+    radial-gradient(ellipse at 12% 0%, rgb(32 143 255 / 16%), transparent 60%),
+    linear-gradient(160deg, rgb(8 26 46 / 62%), rgb(2 10 20 / 72%));
+  box-shadow: 0 24px 70px rgb(0 0 0 / 45%), 0 0 40px rgb(32 143 255 / 16%), inset 0 0 40px rgb(32 143 255 / 8%);
+  text-shadow: 0 2px 18px rgb(0 0 0 / 55%);
+  animation: rca-ref-panel-in 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Corner brackets */
+.rca-ref-panel::before,
+.rca-ref-panel::after {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border: 2px solid #78d4ff;
+  content: '';
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px rgb(101 199 232 / 70%));
+}
+
+.rca-ref-panel::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
+.rca-ref-panel::after { right: -2px; bottom: -2px; border-left: 0; border-top: 0; }
+
+.rca-ref-kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  color: #7fc4ee;
+  font-family: var(--mono);
+  font-size: clamp(0.7rem, 0.9vw, 0.82rem);
+  letter-spacing: 0.18em;
+}
+
+.rca-ref-kicker span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4ac4ff;
+  box-shadow: 0 0 12px #4ac4ff;
+  animation: ile-status-pulse 1.8s ease-in-out infinite;
+}
+
+.rca-ref-lead {
+  margin: 0;
+  background: linear-gradient(90deg, #fff 30%, #8fd6ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 4.2vw, 3.6rem);
+  font-weight: 600;
+  line-height: 1.1;
+  text-shadow: none;
+  filter: drop-shadow(0 2px 18px rgb(32 143 255 / 40%));
+}
+
+.rca-ref-rule {
+  display: block;
+  width: clamp(90px, 12vw, 150px);
+  height: 3px;
+  margin: 18px 0 clamp(22px, 3vw, 34px);
+  transform-origin: left;
+  background: linear-gradient(90deg, #4ac4ff, transparent);
+  box-shadow: 0 0 14px rgb(74 196 255 / 60%);
+}
+
+.rca-ref-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 1.6vw, 20px);
+  margin: 0 0 clamp(22px, 3vw, 34px);
+  padding: 0;
+  list-style: none;
+}
+
+.rca-ref-list li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-height: 150px;
+  padding: 18px 20px 20px;
+  border: 1px solid rgb(106 172 222 / 34%);
+  border-top: 2px solid #4ac4ff;
+  background: linear-gradient(145deg, rgb(17 56 91 / 55%), rgb(4 19 38 / 70%));
+  box-shadow: inset 0 0 30px rgb(24 112 187 / 10%);
+}
+
+.rca-ref-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rca-ref-icon {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 1px solid rgb(120 212 255 / 55%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(74 196 255 / 26%), rgb(74 196 255 / 6%));
+  box-shadow: 0 0 18px rgb(74 196 255 / 35%);
+  color: #9fe0ff;
+}
+
+.rca-ref-num {
+  color: rgb(143 214 255 / 55%);
+  font-family: var(--mono);
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+}
+
+.rca-ref-card-text {
+  color: #eef7fc;
+  font-size: clamp(1.05rem, 1.7vw, 1.4rem);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.rca-ref-conclusion {
+  margin: 0;
+  padding-left: 18px;
+  border-left: 3px solid #4ac4ff;
+  color: #cfe0ec;
+  font-size: clamp(1rem, 1.7vw, 1.4rem);
+  line-height: 1.5;
+}
+
+/* RCA "what is a problem": follows the ILE Dashboard look (RCA_What_1.tsx). */
+.rca-what-panel {
+  display: flex;
+  flex-direction: column;
+  width: min(1040px, 100%);
+  color: #eff8ff;
+  text-shadow: 0 2px 18px rgb(0 0 0 / 55%);
+}
+
+.rca-what-intro { margin-bottom: clamp(24px, 3.4vw, 40px); }
+
+.rca-what-intro h1 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(42px, 6vw, 76px);
+  font-weight: 300;
+  letter-spacing: -0.055em;
+  line-height: 1.02;
+  text-shadow: 0 0 36px rgb(19 126 231 / 34%);
+}
+
+.rca-what-intro h1 strong {
+  color: #94d2ff;
+  font-weight: 600;
+}
+
+.rca-what-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(12px, 1.6vw, 20px);
+  margin: 0 0 clamp(16px, 2vw, 22px);
+  padding: 0;
+  list-style: none;
+}
+
+.rca-what-grid li {
+  display: flex;
+  flex-direction: column;
+  min-height: 210px;
+  padding: clamp(16px, 2vw, 24px);
+  border: 1px solid rgb(106 172 222 / 34%);
+  border-radius: 2px;
+  background:
+    linear-gradient(135deg, rgb(17 56 91 / 72%), rgb(4 19 38 / 82%)),
+    rgb(3 17 34 / 84%);
+  box-shadow: inset 0 0 36px rgb(24 112 187 / 8%);
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.rca-what-grid li:hover {
+  transform: translateY(-4px);
+  border-color: rgb(112 197 255 / 82%);
+  box-shadow: 0 16px 42px rgb(0 0 0 / 26%), 0 0 28px rgb(33 145 233 / 22%), inset 0 0 34px rgb(24 112 187 / 14%);
+}
+
+.rca-ref-page .rca-what-grid li.rca-cue.is-shown { animation: ile-content-enter 700ms both; }
+.rca-ref-page .rca-what-intro.rca-cue.is-shown { animation: ile-content-enter 850ms both; }
+.rca-ref-page .rca-what-note.rca-cue.is-shown { animation: ile-content-enter 700ms both; }
+
+.rca-what-topline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 64px;
+  color: #73bdff;
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+.rca-what-icon {
+  display: grid;
+  width: 56px;
+  height: 56px;
+  place-items: center;
+  color: #8fd3ff;
+  filter: drop-shadow(0 0 10px rgb(78 190 255 / 40%));
+}
+
+.rca-what-arrow {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 1px solid rgb(118 189 255 / 38%);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.rca-what-category {
+  margin-top: 14px;
+  color: #8cb5d6;
+  font-family: var(--mono);
+  font-size: clamp(9px, 0.8vw, 11px);
+  letter-spacing: 0.13em;
+}
+
+.rca-what-title {
+  margin-top: 6px;
+  font-family: var(--display);
+  font-size: clamp(20px, 2vw, 26px);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.rca-what-note {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0;
+  padding: clamp(14px, 1.6vw, 20px) clamp(16px, 2vw, 24px);
+  border: 1px solid rgb(255 166 64 / 42%);
+  border-left: 3px solid #ff9f2e;
+  border-radius: 2px;
+  background: linear-gradient(135deg, rgb(94 47 6 / 72%), rgb(32 15 3 / 84%));
+  box-shadow: inset 0 0 36px rgb(255 140 30 / 10%), 0 0 26px rgb(255 140 30 / 10%);
+  color: #f6dcc0;
+  font-size: clamp(14px, 1.4vw, 18px);
+  line-height: 1.6;
+}
+
+.rca-what-note-tag {
+  flex: none;
+  color: #ffb057;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 12px rgb(255 140 30 / 60%);
+}
+
+@keyframes rca-ref-panel-in {
+  from { opacity: 0; transform: translateY(26px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes rca-ref-card-in {
+  from { opacity: 0; transform: translateY(24px) scale(0.94); box-shadow: 0 0 0 rgb(74 196 255 / 0%); }
+  60% { box-shadow: 0 0 34px rgb(74 196 255 / 45%); }
+  to { opacity: 1; transform: none; }
+}
+
+.rca-next,
+.rca-back {
+  z-index: 5;
+}
+
+/* Dev-only page switcher (see DevNav.tsx). */
+.dev-nav {
+  position: fixed;
+  bottom: 12px;
+  left: 12px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  font-family: var(--mono);
+}
+
+.dev-nav-toggle {
+  padding: 8px 12px;
+  border: 1px dashed #ffb347;
+  background: rgb(20 12 0 / 85%);
+  color: #ffb347;
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+.dev-nav-menu {
+  max-height: 70vh;
+  min-width: 220px;
+  padding: 10px;
+  overflow-y: auto;
+  border: 1px dashed #ffb347;
+  background: rgb(10 8 4 / 94%);
+  box-shadow: 0 10px 40px rgb(0 0 0 / 60%);
+}
+
+.dev-nav-group p {
+  margin: 8px 0 4px;
+  color: #ffb347;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.dev-nav-group button {
+  display: block;
+  width: 100%;
+  padding: 7px 10px;
+  border: 0;
+  background: transparent;
+  color: #e8dcc8;
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dev-nav-group button:hover { background: rgb(255 179 71 / 16%); }
+.dev-nav-group button.is-current { color: #ffb347; font-weight: 700; }
 
 @keyframes rca-board-rise {
   from { opacity: 0; transform: translate(-50%, calc(-50% + 60vh)); }

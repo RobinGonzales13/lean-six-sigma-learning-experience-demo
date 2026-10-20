@@ -6,6 +6,10 @@ import RcaProblemPage from './Rca_Opening_2'
 import RcaOpeningThree from './RCA_Opening_3'
 import RcaAgendaPage from './RCA_Agenda_1'
 import RcaExperienceOutcomes from './RCA_ExpOut_1'
+import RcaReflectionPage from './RCA_Ref_1'
+import RcaWhatPage from './RCA_What_1'
+import DevNav from './DevNav'
+import type { Page } from './pages'
 import WireframeIntro, { type NarrationAudio } from './LSS_Opening_1'
 import './App.css'
 
@@ -14,9 +18,7 @@ const defaultNarration: NarrationAudio = {
   url: `${import.meta.env.BASE_URL}audio/Intro_1.wav`,
 }
 
-function App() {
-  const [page, setPage] = useState<'intro' | 'ile-dashboard' | 'rca' | 'rca-problem' | 'rca-opening-3' | 'rca-agenda' | 'rca-expout' | 'lean' | 'whitebelt' | 'quiz'>('ile-dashboard')
-
+function Pages({ page, setPage }: { page: Page; setPage: (page: Page) => void }) {
   if (page === 'intro') {
     return (
       <WireframeIntro
@@ -53,7 +55,15 @@ function App() {
   }
 
   if (page === 'rca-expout') {
-    return <RcaExperienceOutcomes onBack={() => setPage('rca-agenda')} />
+    return <RcaExperienceOutcomes onBack={() => setPage('rca-agenda')} onNext={() => setPage('rca-ref')} />
+  }
+
+  if (page === 'rca-ref') {
+    return <RcaReflectionPage onBack={() => setPage('rca-expout')} onNext={() => setPage('rca-what')} />
+  }
+
+  if (page === 'rca-what') {
+    return <RcaWhatPage onBack={() => setPage('rca-ref')} />
   }
 
   if (page === 'lean') {
@@ -65,6 +75,17 @@ function App() {
   }
 
   return <PrinciplesQuizPage onBack={() => setPage('whitebelt')} />
+}
+
+function App() {
+  const [page, setPage] = useState<Page>('ile-dashboard')
+
+  return (
+    <>
+      <Pages page={page} setPage={setPage} />
+      {import.meta.env.DEV && <DevNav page={page} onGo={setPage} />}
+    </>
+  )
 }
 
 export default App
