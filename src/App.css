@@ -2406,15 +2406,15 @@
 
 .ile-learning-paths {
   display: grid;
-  align-items: start;
-  grid-auto-rows: 228px;
+  align-items: stretch;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  gap: clamp(12px, 1.6vw, 20px);
 }
 
 .ile-learning-card {
-  height: 190px;
-  padding: 14px 20px 16px;
+  min-width: 0;
+  min-height: 230px;
+  padding: clamp(16px, 2vw, 24px);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -2428,7 +2428,7 @@
   box-shadow: inset 0 0 36px rgb(24 112 187 / 8%);
   cursor: pointer;
   animation: ile-content-enter 850ms both;
-  transition: height 240ms ease, transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
 }
 
 .ile-learning-card:nth-child(2) {
@@ -2436,7 +2436,6 @@
 }
 
 .ile-learning-card:hover {
-  height: 228px;
   transform: translateY(-4px);
   border-color: rgb(112 197 255 / 82%);
   background-color: rgb(12 54 91 / 78%);
@@ -2444,17 +2443,17 @@
 }
 
 .ile-learning-card:focus-visible {
-  height: 228px;
   outline: 3px solid #b8e2ff;
   outline-offset: 4px;
 }
 
 .ile-card-topline {
   width: 100%;
-  min-height: 58px;
+  min-height: 64px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  gap: 12px;
   color: #73bdff;
   font-family: var(--mono);
   font-size: 10px;
@@ -2462,8 +2461,9 @@
 
 .ile-card-arrow {
   display: grid;
-  width: 29px;
-  height: 29px;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
   place-items: center;
   border: 1px solid rgb(118 189 255 / 38%);
   font-size: 16px;
@@ -2477,32 +2477,32 @@
 
 .ile-card-category {
   display: block;
-  margin-top: 12px;
+  margin-top: 14px;
   color: #8cb5d6;
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: clamp(9px, 0.8vw, 11px);
   letter-spacing: 0.13em;
 }
 
 .ile-card-heading {
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
+  min-width: 0;
 }
 
 .ile-card-title {
   display: block;
-  margin-top: 5px;
+  margin-top: 6px;
   font-family: var(--display);
-  font-size: 24px;
+  font-size: clamp(20px, 2vw, 26px);
   font-weight: 500;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
 }
 
 .ile-card-logo {
-  width: 80px;
-  height: 58px;
+  width: auto;
+  max-width: 96px;
+  height: 64px;
   flex: 0 0 auto;
   object-fit: contain;
   background: transparent;
@@ -2512,39 +2512,30 @@
 
 .ile-learning-card:hover .ile-card-logo,
 .ile-learning-card:focus-visible .ile-card-logo {
-  transform: scale(1.5);
+  transform: scale(1.1);
   filter: drop-shadow(0 0 13px rgb(82 196 255 / 78%));
 }
 
 .ile-card-description {
-  margin-top: 6px;
+  margin-top: 8px;
   color: #b2c6d9;
-  font-size: 11px;
-  line-height: 1.45;
+  font-size: clamp(12px, 1vw, 14px);
+  line-height: 1.5;
 }
 
 .ile-card-action {
-  max-height: 0;
-  margin-top: 0;
-  padding-top: 0;
-  overflow: hidden;
+  margin-top: auto;
+  padding-top: 14px;
   color: #a1d7ff;
-  font-size: 11px;
+  font-size: clamp(12px, 1vw, 13px);
   font-weight: 600;
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(7px);
-  transition: max-height 220ms ease, margin-top 220ms ease, padding-top 220ms ease, opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+  opacity: 0.75;
+  transition: opacity 180ms ease;
 }
 
 .ile-learning-card:hover .ile-card-action,
 .ile-learning-card:focus-visible .ile-card-action {
-  max-height: 48px;
-  margin-top: auto;
-  padding-top: 12px;
-  visibility: visible;
   opacity: 1;
-  transform: translateY(0);
 }
 
 .ile-card-action span {
@@ -2595,54 +2586,6 @@
   50% { opacity: 0.45; box-shadow: 0 0 4px #45c9ff; }
 }
 
-@media (max-width: 600px) {
-  .ile-dashboard-header {
-    align-items: flex-start;
-    font-size: 8px;
-  }
-
-  .ile-dashboard-status {
-    padding-top: 12px;
-    font-size: 8px;
-  }
-
-  .ile-dashboard-main {
-    padding-top: 38px;
-  }
-
-  .ile-dashboard-intro {
-    margin-bottom: 25px;
-  }
-
-  .ile-learning-paths {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 12px;
-  }
-
-  .ile-learning-card {
-    height: 190px;
-    padding: 14px 18px 16px;
-  }
-
-  .ile-learning-card:hover,
-  .ile-learning-card:focus-visible {
-    height: 228px;
-  }
-
-  .ile-card-category {
-    margin-top: 12px;
-  }
-
-  .ile-card-logo {
-    width: 76px;
-    height: 56px;
-  }
-
-  .ile-dashboard-footnote {
-    text-align: left;
-  }
-}
-
 @media (max-height: 760px) {
   .intro-content {
     gap: 42px;
@@ -2688,50 +2631,6 @@
   .intro-controls .begin-button span {
     width: 24px;
     height: 24px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ile-background::before,
-  .ile-background-grid,
-  .ile-light-beam,
-  .ile-digital-squares span,
-  .ile-dashboard-status i,
-  .ile-dashboard-intro,
-  .ile-learning-card {
-    animation: none;
-    transition: none;
-  }
-
-  .ile-brand-logo {
-    transition: none;
-  }
-
-  .ile-card-logo {
-    transition: none;
-  }
-
-  .ile-card-description,
-  .ile-card-action {
-    transition: none;
-  }
-
-  .rca-grid-lines,
-  .rca-grid-sweep,
-  .rca-board,
-  .rca-board-step {
-    animation: none;
-  }
-
-  .rca-board-step,
-  .rca-board-step-icon,
-  .rca-expout-list li,
-  .rca-expout-list li::before {
-    transition: none;
-  }
-
-  .ile-digital-squares span {
-    opacity: 0.5;
   }
 }
 
