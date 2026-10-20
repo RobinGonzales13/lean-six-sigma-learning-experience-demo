@@ -1587,6 +1587,16 @@
   animation: rca-board-in 850ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.rca-page.rca-expout-page {
+  animation: none;
+  opacity: 1;
+}
+
+.rca-expout-page .rca-board {
+  animation: none;
+  opacity: 1;
+}
+
 .rca-board::before,
 .rca-board::after {
   position: absolute;
