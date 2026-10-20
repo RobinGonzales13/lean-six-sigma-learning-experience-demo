@@ -4,10 +4,11 @@ const base = `${import.meta.env.BASE_URL}RCA_page`
 
 // Seconds into What_1.wav at which each phrase starts being spoken.
 const CUES = {
-  overlay: 7.6, // "This gap can impact"
-  lead: 7.7,
-  items: [8.4, 9.75, 12.8, 14.25], // productivity / quality / cost / customer satisfaction
-  conclusion: 16.45, // "One of the most common mistakes..."
+  definition: 1.96, // "A business problem..."
+  overlay: 1.96,
+  lead: 7.68, // "This gap can impact"
+  items: [8.5, 10.46, 12.54, 13.8], // productivity / quality / cost / customer satisfaction
+  conclusion: 16.48, // "One of the most common mistakes..."
 }
 
 const impacts = [
@@ -126,7 +127,13 @@ export default function RcaWhatPage({ onBack }: { onBack: () => void }) {
         <>
           <div className="rca-overlay" />
           <div className="rca-ref-content">
-            <section className="rca-what-panel" aria-label="Impact of a gap">
+            <section className="rca-what-panel" aria-label="What is a business problem">
+              <div className={`rca-what-definition rca-cue${shown(CUES.definition)}`}>
+                <p className="rca-what-definition-label">BUSINESS PROBLEM / DEFINITION</p>
+                <p className="rca-what-definition-text">
+                  A business problem is a <strong>gap</strong> between current performance and expected results.
+                </p>
+              </div>
               <div className={`rca-what-intro rca-cue${shown(CUES.lead)}`}>
                 <p className="ile-eyebrow"><span /> ROOT CAUSE ANALYSIS / WHAT IS A PROBLEM</p>
                 <h1>This gap <strong>can impact:</strong></h1>
