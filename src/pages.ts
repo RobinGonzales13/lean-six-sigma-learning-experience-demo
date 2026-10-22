@@ -7,6 +7,9 @@ export type Page =
   | 'rca-expout'
   | 'rca-ref'
   | 'rca-what'
+  | 'rca-what-2'
+  | 'rca-pdca-1'
+  | 'rca-probstate-1'
   | 'intro'
   | 'lean'
   | 'whitebelt'
@@ -21,6 +24,9 @@ export const PAGE_LIST: { id: Page; label: string; group: string }[] = [
   { id: 'rca-expout', label: 'Expected Outcome', group: 'RCA' },
   { id: 'rca-ref', label: 'Reflection', group: 'RCA' },
   { id: 'rca-what', label: 'What is a Problem', group: 'RCA' },
+  { id: 'rca-what-2', label: 'The Problem', group: 'RCA' },
+  { id: 'rca-pdca-1', label: 'PDCA Cycle', group: 'RCA' },
+  { id: 'rca-probstate-1', label: 'Problem Statement', group: 'RCA' },
   { id: 'intro', label: 'LSS Opening', group: 'LSS White Belt' },
   { id: 'lean', label: 'Lean Six Sigma', group: 'LSS White Belt' },
   { id: 'whitebelt', label: 'White Belt', group: 'LSS White Belt' },

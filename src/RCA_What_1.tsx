@@ -47,7 +47,7 @@ function ImpactIcon({ name }: { name: (typeof impacts)[number]['icon'] }) {
   )
 }
 
-export default function RcaWhatPage({ onBack }: { onBack: () => void }) {
+export default function RcaWhatPage({ onBack, onNext }: { onBack: () => void; onNext: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const voiceRef = useRef<HTMLAudioElement>(null)
   const [needsPlay, setNeedsPlay] = useState(false)
@@ -159,9 +159,14 @@ export default function RcaWhatPage({ onBack }: { onBack: () => void }) {
         </>
       )}
       {narrationEnded && (
-        <button className="back-button rca-back rca-reveal" type="button" onClick={onBack}>
-          <span aria-hidden="true">&lt;</span> Back
-        </button>
+        <>
+          <button className="back-button rca-back rca-reveal" type="button" onClick={onBack}>
+            <span aria-hidden="true">&lt;</span> Back
+          </button>
+          <button className="next-button rca-next rca-reveal" type="button" onClick={onNext}>
+            Next <span aria-hidden="true">&gt;</span>
+          </button>
+        </>
       )}
     </main>
   )

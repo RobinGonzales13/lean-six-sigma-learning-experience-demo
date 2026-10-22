@@ -8,6 +8,9 @@ import RcaAgendaPage from './RCA_Agenda_1'
 import RcaExperienceOutcomes from './RCA_ExpOut_1'
 import RcaReflectionPage from './RCA_Ref_1'
 import RcaWhatPage from './RCA_What_1'
+import RcaWhatTwo from './RCA_What_2'
+import RcaPdcaPage from './RCA_Pdca_1'
+import RcaProblemStatementPage from './RCA_ProbState_1'
 import DevNav from './DevNav'
 import type { Page } from './pages'
 import WireframeIntro, { type NarrationAudio } from './LSS_Opening_1'
@@ -63,7 +66,19 @@ function Pages({ page, setPage }: { page: Page; setPage: (page: Page) => void })
   }
 
   if (page === 'rca-what') {
-    return <RcaWhatPage onBack={() => setPage('rca-ref')} />
+    return <RcaWhatPage onBack={() => setPage('rca-ref')} onNext={() => setPage('rca-what-2')} />
+  }
+
+  if (page === 'rca-what-2') {
+    return <RcaWhatTwo onBack={() => setPage('rca-what')} onNext={() => setPage('rca-pdca-1')} />
+  }
+
+  if (page === 'rca-pdca-1') {
+    return <RcaPdcaPage onBack={() => setPage('rca-what-2')} onNext={() => setPage('rca-probstate-1')} />
+  }
+
+  if (page === 'rca-probstate-1') {
+    return <RcaProblemStatementPage onBack={() => setPage('rca-pdca-1')} />
   }
 
   if (page === 'lean') {
