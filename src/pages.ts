@@ -1,5 +1,7 @@
 export type Page =
   | 'ile-dashboard'
+  | 'login'
+  | 'my-profile'
   | 'rca'
   | 'rca-problem'
   | 'rca-opening-3'
@@ -17,6 +19,8 @@ export type Page =
 
 export const PAGE_LIST: { id: Page; label: string; group: string }[] = [
   { id: 'ile-dashboard', label: 'ILE Dashboard', group: 'General' },
+  { id: 'login', label: 'Log In', group: 'General' },
+  { id: 'my-profile', label: 'My Profile', group: 'General' },
   { id: 'rca', label: 'Opening 1 (title video)', group: 'RCA' },
   { id: 'rca-problem', label: 'Opening 2 (problem)', group: 'RCA' },
   { id: 'rca-opening-3', label: 'Opening 3 (approach)', group: 'RCA' },
