@@ -27,17 +27,15 @@ function NarrationPlayer({ narration, audioRef }: NarrationPlayerProps) {
   }, [audioRef, narrationUrl])
 
   return (
-    <div className="narration-controls">
-      <span className="narration-file-name" title={narration.name}>{narration.name}</span>
-      <audio
-        ref={audioRef}
-        controls
-        autoPlay
-        preload="auto"
-        src={narrationUrl}
-        aria-label="Intro narration"
-      />
-    </div>
+    <audio
+      ref={audioRef}
+      hidden
+      autoPlay
+      preload="auto"
+      src={narrationUrl}
+      aria-hidden="true"
+      tabIndex={-1}
+    />
   )
 }
 

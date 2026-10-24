@@ -15,7 +15,10 @@ export type Page =
   | 'intro'
   | 'lean'
   | 'whitebelt'
-  | 'quiz'
+  | 'lss1-q1'
+  | 'lss1-q1-complete'
+  | 'lss1-q1-failed'
+  | 'game-1'
 
 export const PAGE_LIST: { id: Page; label: string; group: string }[] = [
   { id: 'ile-dashboard', label: 'ILE Dashboard', group: 'General' },
@@ -34,5 +37,8 @@ export const PAGE_LIST: { id: Page; label: string; group: string }[] = [
   { id: 'intro', label: 'LSS Opening', group: 'LSS White Belt' },
   { id: 'lean', label: 'Lean Six Sigma', group: 'LSS White Belt' },
   { id: 'whitebelt', label: 'White Belt', group: 'LSS White Belt' },
-  { id: 'quiz', label: 'Principles Quiz', group: 'LSS White Belt' },
+  { id: 'lss1-q1', label: 'LSS1_Q1', group: 'LSS White Belt' },
+  { id: 'lss1-q1-complete', label: 'Quiz 1 Complete', group: 'LSS White Belt' },
+  { id: 'lss1-q1-failed', label: 'You Failed the Course', group: 'LSS White Belt' },
+  { id: 'game-1', label: 'Game 1', group: 'Mini games' },
 ]

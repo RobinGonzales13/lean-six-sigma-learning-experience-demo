@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { LeanSixSigmaPage, PrinciplesQuizPage, WhiteBeltPage } from './TrainingPages'
+import { LeanSixSigmaPage, WhiteBeltPage } from './LSS1_2'
+import LSS1Q1Page from './LSS1_Q1'
+import LSS1Q1ResultPage from './LSS1_Q1_Result'
 import ILE_Dashboard from './ILE_Dashboard'
 import LogInPage from './LogInPage'
 import MyProfile from './MyProfile'
@@ -15,7 +17,8 @@ import RcaPdcaPage from './RCA/RCA_Pdca_1'
 import RcaProblemStatementPage from './RCA/RCA_ProbState_1'
 import DevNav from './DevNav'
 import type { Page } from './pages'
-import WireframeIntro, { type NarrationAudio } from './LSS_Opening_1'
+import WireframeIntro, { type NarrationAudio } from './LSS1_1'
+import GameOnePage from './Game1'
 import './App.css'
 
 const defaultNarration: NarrationAudio = {
@@ -97,10 +100,31 @@ function Pages({ page, setPage }: { page: Page; setPage: (page: Page) => void })
   }
 
   if (page === 'whitebelt') {
-    return <WhiteBeltPage onBack={() => setPage('lean')} onNext={() => setPage('quiz')} />
+    return <WhiteBeltPage onBack={() => setPage('lean')} onNext={() => setPage('lss1-q1')} />
   }
 
-  return <PrinciplesQuizPage onBack={() => setPage('whitebelt')} />
+  if (page === 'game-1') {
+    return <GameOnePage onBack={() => setPage('ile-dashboard')} />
+  }
+
+  if (page === 'lss1-q1') {
+    return (
+      <LSS1Q1Page
+        onBack={() => setPage('whitebelt')}
+        onSubmit={(selectedOption) => setPage(selectedOption === 0 ? 'lss1-q1-complete' : 'lss1-q1-failed')}
+      />
+    )
+  }
+
+  if (page === 'lss1-q1-complete') {
+    return <LSS1Q1ResultPage passed onRetry={() => setPage('lss1-q1')} onDashboard={() => setPage('ile-dashboard')} />
+  }
+
+  if (page === 'lss1-q1-failed') {
+    return <LSS1Q1ResultPage passed={false} onRetry={() => setPage('lss1-q1')} onDashboard={() => setPage('ile-dashboard')} />
+  }
+
+  return <ILE_Dashboard onRca={() => setPage('rca')} onWhiteBelt={() => setPage('intro')} />
 }
 
 function App() {

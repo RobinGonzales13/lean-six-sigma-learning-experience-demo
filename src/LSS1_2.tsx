@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
-import { CorridorScene } from './LSS_Opening_1'
+import { useEffect, useRef, type CSSProperties } from 'react'
+import { CorridorScene } from './LSS1_1'
 
 type LessonPageProps = {
   onNext: () => void
@@ -14,51 +14,30 @@ type TrainingShellProps = {
 
 function PageNarration({ fileName }: { fileName: string }) {
   const audioRef = useRef<HTMLAudioElement>(null)
-  const [autoplayBlocked, setAutoplayBlocked] = useState(false)
   const src = `${import.meta.env.BASE_URL}audio/${fileName}`
 
   useEffect(() => {
     const player = audioRef.current
     if (!player) return
-    let active = true
 
-    void player.play()
-      .then(() => { if (active) setAutoplayBlocked(false) })
-      .catch(() => { if (active) setAutoplayBlocked(true) })
+    void player.play().catch(() => {})
 
     return () => {
-      active = false
       player.pause()
       player.currentTime = 0
     }
   }, [src])
 
-  function handlePlay() {
-    const player = audioRef.current
-    if (!player) return
-    void player.play()
-      .then(() => setAutoplayBlocked(false))
-      .catch(() => setAutoplayBlocked(true))
-  }
-
   return (
-    <div className="page-narration">
-      <span className="page-narration-name">{fileName}</span>
-      <audio
-        ref={audioRef}
-        controls
-        autoPlay
-        preload="auto"
-        src={src}
-        aria-label={`${fileName} narration`}
-        onPlay={() => setAutoplayBlocked(false)}
-      />
-      {autoplayBlocked && (
-        <button className="narration-retry-button" type="button" onClick={handlePlay}>
-          Play narration
-        </button>
-      )}
-    </div>
+    <audio
+      ref={audioRef}
+      hidden
+      autoPlay
+      preload="auto"
+      src={src}
+      aria-hidden="true"
+      tabIndex={-1}
+    />
   )
 }
 
@@ -71,14 +50,7 @@ const principles = [
   'Simple Tools',
 ]
 
-const quizOptions = [
-  'Reduce waste, solve problems, and improve processes.',
-  'Focus only on speed and ignore customer value.',
-  'Add more steps so every task has extra checks.',
-  'Use complex tools before understanding the process.',
-]
-
-function TrainingShell({ stage, narration, children }: TrainingShellProps) {
+export function TrainingShell({ stage, narration, children }: TrainingShellProps) {
   return (
     <main className="wireframe-intro training-screen">
       <div className="fallback-grid" aria-hidden="true" />
@@ -167,57 +139,6 @@ export function WhiteBeltPage({ onNext, onBack }: LessonPageProps) {
           Next <span aria-hidden="true">&gt;</span>
         </button>
       </footer>
-    </TrainingShell>
-  )
-}
-
-export function PrinciplesQuizPage({ onBack }: { onBack: () => void }) {
-  const [selectedOption, setSelectedOption] = useState<number | null>(null)
-
-  return (
-    <TrainingShell stage="KNOWLEDGE CHECK / 03">
-      <section className="quiz-layout" aria-labelledby="quiz-title">
-        <div className="quiz-heading">
-          <p className="training-kicker"><span />FINAL CHECK</p>
-          <h1 id="quiz-title" className="lesson-title">Put the principles together.</h1>
-          <p className="quiz-question">What is the main aim of Lean Six Sigma?</p>
-        </div>
-
-        <fieldset className="quiz-options">
-          <legend className="visually-hidden">Choose one answer</legend>
-          {quizOptions.map((option, index) => (
-            <label
-              className={`quiz-option${selectedOption === index ? ' is-selected' : ''}`}
-              key={option}
-              style={{ animationDelay: `${160 + index * 120}ms` } as CSSProperties}
-            >
-              <input
-                type="radio"
-                name="lean-six-sigma-answer"
-                value={index}
-                checked={selectedOption === index}
-                onChange={() => setSelectedOption(index)}
-              />
-              <span className="quiz-option-index">0{index + 1}</span>
-              <span className="quiz-option-text">{option}</span>
-              <span className="quiz-option-indicator" aria-hidden="true" />
-            </label>
-          ))}
-        </fieldset>
-
-        <footer className="quiz-actions">
-          <span className="quiz-note">SELECT ONE RESPONSE</span>
-          <div className="quiz-action-buttons">
-            <button className="back-button" type="button" onClick={onBack}>
-              <span aria-hidden="true">&lt;</span> Back
-            </button>
-            <button className="submit-answer-button" type="button">
-              Submit answer <span aria-hidden="true">&gt;</span>
-            </button>
-          </div>
-        </footer>
-      </section>
-      <div className="quiz-endmark"><span />END OF DEMO<span /></div>
     </TrainingShell>
   )
 }
