@@ -1,6 +1,7 @@
 type ILEDashboardProps = {
   onRca: () => void
   onWhiteBelt: () => void
+  onLogin: () => void
 }
 
 const learningPaths = [
@@ -26,8 +27,8 @@ const learningPaths = [
   },
 ]
 
-export default function ILE_Dashboard({ onRca, onWhiteBelt }: ILEDashboardProps) {
-  const props = { onRca, onWhiteBelt }
+export default function ILE_Dashboard({ onRca, onWhiteBelt, onLogin }: ILEDashboardProps) {
+  const props = { onRca, onWhiteBelt, onLogin }
 
   return (
     <main className="ile-dashboard">
@@ -51,7 +52,10 @@ export default function ILE_Dashboard({ onRca, onWhiteBelt }: ILEDashboardProps)
             />
             <span>INTERACTIVE LEARNING EXPERIENCE</span>
           </a>
-          <span className="ile-dashboard-status"><i /> LEARNING PORTAL</span>
+          <div className="ile-dashboard-header-actions">
+            <span className="ile-dashboard-status"><i /> LEARNING PORTAL</span>
+            <button className="ile-login-button" type="button" onClick={onLogin}>Login</button>
+          </div>
         </header>
 
         <section className="ile-dashboard-main" id="dashboard" aria-labelledby="ile-dashboard-title">

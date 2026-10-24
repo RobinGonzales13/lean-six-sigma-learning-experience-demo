@@ -1,16 +1,18 @@
 import { useState } from 'react'
 import { LeanSixSigmaPage, PrinciplesQuizPage, WhiteBeltPage } from './TrainingPages'
 import ILE_Dashboard from './ILE_Dashboard'
-import RcaTrainingPage from './Rca_Opening_1'
-import RcaProblemPage from './Rca_Opening_2'
-import RcaOpeningThree from './RCA_Opening_3'
-import RcaAgendaPage from './RCA_Agenda_1'
-import RcaExperienceOutcomes from './RCA_ExpOut_1'
-import RcaReflectionPage from './RCA_Ref_1'
-import RcaWhatPage from './RCA_What_1'
-import RcaWhatTwo from './RCA_What_2'
-import RcaPdcaPage from './RCA_Pdca_1'
-import RcaProblemStatementPage from './RCA_ProbState_1'
+import LogInPage from './LogInPage'
+import MyProfile from './MyProfile'
+import RcaTrainingPage from './RCA/Rca_Opening_1'
+import RcaProblemPage from './RCA/Rca_Opening_2'
+import RcaOpeningThree from './RCA/RCA_Opening_3'
+import RcaAgendaPage from './RCA/RCA_Agenda_1'
+import RcaExperienceOutcomes from './RCA/RCA_ExpOut_1'
+import RcaReflectionPage from './RCA/RCA_Ref_1'
+import RcaWhatPage from './RCA/RCA_What_1'
+import RcaWhatTwo from './RCA/RCA_What_2'
+import RcaPdcaPage from './RCA/RCA_Pdca_1'
+import RcaProblemStatementPage from './RCA/RCA_ProbState_1'
 import DevNav from './DevNav'
 import type { Page } from './pages'
 import WireframeIntro, { type NarrationAudio } from './LSS_Opening_1'
@@ -37,8 +39,17 @@ function Pages({ page, setPage }: { page: Page; setPage: (page: Page) => void })
       <ILE_Dashboard
         onRca={() => setPage('rca')}
         onWhiteBelt={() => setPage('intro')}
+        onLogin={() => setPage('login')}
       />
     )
+  }
+
+  if (page === 'my-profile') {
+    return <MyProfile onBack={() => setPage('ile-dashboard')} />
+  }
+
+  if (page === 'login') {
+    return <LogInPage onBack={() => setPage('ile-dashboard')} />
   }
 
   if (page === 'rca') {
